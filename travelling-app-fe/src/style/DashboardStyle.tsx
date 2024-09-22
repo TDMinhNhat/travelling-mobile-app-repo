@@ -6,8 +6,18 @@ export default StyleSheet.create({
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
         justifyContent: "space-between",
         marginTop: StatusBar.currentHeight
+    },
+    footer: {
+        width: "100%",
+        height: 100,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        borderTopColor: "#f3f3f3",
+        borderTopWidth: 2,
     },
     tab: {
         width: 30,
@@ -19,19 +29,18 @@ export default StyleSheet.create({
     },
     tabActive: {
         borderBottomColor: "#349eb0",
-        borderBottomWidth: 4
+        borderBottomWidth: 4,
+        textAlign: "center"
     },
     tabUnactive: {
         borderBottomColor: "transparent",
-        borderBottomWidth: 4
-    },
-    fontIcon: {
-        fontSize: 20,
+        borderBottomWidth: 4,
+        textAlign: "center"
     },
     fontActive: {
         fontWeight: "bold",
         fontSize: 15,
-        color: "#349eb0"
+        color: "#349eb0",
     },
     fontUnative: {
         fontWeight: "normal",
