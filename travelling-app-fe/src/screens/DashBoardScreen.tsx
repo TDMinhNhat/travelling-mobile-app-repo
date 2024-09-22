@@ -7,6 +7,9 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Beach from "../components/Beach";
+import Camping from "../components/Camping";
+import Mountain from "../components/Mountain";
 
 
 export default function () {
@@ -38,6 +41,9 @@ export default function () {
             </View>
         </View>
         <View>
+            { travelType == "Beach" && <Beach />}
+            { travelType == "Mountain" && <Mountain />}
+            { travelType == "Camping" && <Camping />}
         </View>
         <View style={DashboardStyle.footer}>
             <Pressable onPress={() => setTab("Search")} style={DashboardStyle.tab}>

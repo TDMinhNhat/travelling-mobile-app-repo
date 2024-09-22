@@ -11,6 +11,7 @@ export default StyleSheet.create({
         marginTop: StatusBar.currentHeight
     },
     footer: {
+        height: 80,
         width: "100%",
         display: "flex",
         flexDirection: "row",
