@@ -12,7 +12,6 @@ export default StyleSheet.create({
     },
     footer: {
         width: "100%",
-        height: 100,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
@@ -20,11 +19,9 @@ export default StyleSheet.create({
         borderTopWidth: 2,
     },
     tab: {
-        width: 30,
+        flex: 1,
         display: "flex",
         alignItems: "center",
-        flex: 1,
-        height: "100%",
         padding: 10
     },
     tabActive: {
@@ -37,14 +34,17 @@ export default StyleSheet.create({
         borderBottomWidth: 4,
         textAlign: "center"
     },
+    fontIcon: {
+        fontSize: 20,
+    },
     fontActive: {
         fontWeight: "bold",
-        fontSize: 15,
+        fontSize: 13,
         color: "#349eb0",
     },
     fontUnative: {
         fontWeight: "normal",
-        fontSize: 15,
+        fontSize: 13,
         color: "black"
     }
 })

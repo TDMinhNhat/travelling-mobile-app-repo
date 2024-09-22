@@ -22,6 +22,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6abb2af0-2942-4bea-8a27-9dcc157ca818"
+      }
+    },
+    "owner": "skyherobrine"
   }
 }
