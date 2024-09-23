@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar, View, Platform } from 'react-native'; 
-import Screen1 from './src/screens/Splash Screen';  
+import SplashScreen from './src/screens/SplashScreen';  // Import màn hình SplashScreen
+import CreateAccountScreen from './src/screens/CreateAccountScreen';  // Import màn hình CreateAccountScreen
 
 export default function App() {
+  const [isSplashVisible, setIsSplashVisible] = useState(true);  // Trạng thái để quản lý SplashScreen
+
+  useEffect(() => {
+    // Đặt hẹn giờ để ẩn màn hình SplashScreen sau 3 giây (3000ms)
+    const timer = setTimeout(() => {
+      setIsSplashVisible(false);  // Ẩn SplashScreen
+    }, 3000);
+
+    // Dọn dẹp hẹn giờ khi component bị hủy
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Hiển thị StatusBar nếu không phải web
+  const renderStatusBar = () => {
+    if (Platform.OS !== 'web') {
+      return <StatusBar barStyle="dark-content" />;
+    }
+    return null;
+  };
+
+  // Điều kiện hiển thị màn hình dựa trên trạng thái SplashScreen
+  const renderScreen = () => {
+    return isSplashVisible ? <SplashScreen /> : <CreateAccountScreen />;
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      {/* Cài đặt cho StatusBar, chỉ hiển thị trên thiết bị di động */}
-      {Platform.OS !== 'web' ? <StatusBar style="auto" /> : null}
-
-      {/* Hiển thị màn hình Screen1 */}
-      <Screen1 />
+      {renderStatusBar()}
+      {renderScreen()}
     </View>
   );
 }
