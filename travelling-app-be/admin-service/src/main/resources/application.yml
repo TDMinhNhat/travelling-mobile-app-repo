@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: admin-service
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/admin_db?createDatabaseIfNotExist=true
+    username: root
+    password: 123456789
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+  data:
+    mongodb:
+      port: 27017
+      host: localhost
+      database: admin_db
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
