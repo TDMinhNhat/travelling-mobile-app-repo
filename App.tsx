@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar, View, Platform } from 'react-native'; 
-import Screen1 from './src/screens/screen1';  
+import Screen1 from './src/screens/Splash Screen';  
 
 export default function App() {
   return (
