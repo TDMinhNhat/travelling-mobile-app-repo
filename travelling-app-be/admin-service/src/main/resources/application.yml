@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: admin-service
@@ -22,3 +23,5 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+server:
+  port: 9000
