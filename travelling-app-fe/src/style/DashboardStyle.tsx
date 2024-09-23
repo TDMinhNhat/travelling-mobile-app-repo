@@ -13,7 +13,11 @@ export default StyleSheet.create({
     footer: {
         height: 80,
         width: "100%",
+        position: "absolute",
+        bottom: 0,
+        backgroundColor: "white",
         display: "flex",
+        alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-around",
         borderTopColor: "#f3f3f3",
