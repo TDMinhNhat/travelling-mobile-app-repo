@@ -52,7 +52,15 @@ export default function () {
             }
         ],
         policies: [
-
+            {
+                name: "House rules",
+                describe: [
+                    "Earliest check-in: 2:00 PM",
+                    "Latest check-out: 12:00 PM",
+                ],
+                type: "Checkin policies",
+                description: "It's always a good idea to confirm the check-in policy directly with the owner/manager before your arrival so that you can plan accordingly and avoid any surprises. For example, some properties may have a late check-in policy, or they may require you to check in at a specific time of day. Some properties may also have a minimum age requirement for check-in. Be sure to confirm these details with the owner/manager before your arrival.",
+            }
         ],
         reviews: [
             {
@@ -156,28 +164,28 @@ export default function () {
                 </View>
                 { /* Facilities and Services */}
                 <View style={{ width: "100%", marginTop: 25, flex: 1, alignItems: "center", borderBottomWidth: 2, borderBottomColor: "#f6f6f6" }}>
-                    <View style={{width: "90%"}}>
+                    <View style={{ width: "90%" }}>
                         <View>
-                            <Text style={{fontWeight: 600, fontSize: 20}}>Facilities & Services</Text>
+                            <Text style={{ fontWeight: 600, fontSize: 20 }}>Facilities & Services</Text>
                         </View>
-                        <View style={{display: "flex", flexDirection: "row", marginTop: 20}}>
+                        <View style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
                             {data.facilities.map((item, index) => {
                                 return <Text key={index.toString()} style={{ color: "#79797b", marginRight: 20 }}>{item.number} {item.name}</Text>
                             })}
                         </View>
-                        <View style={{width: "100%", marginTop: 20, marginBottom: 20, display: "flex"}}>
+                        <View style={{ width: "100%", marginTop: 20, marginBottom: 20, display: "flex" }}>
                             {data.services.map((item, index) => {
                                 return (
-                                    <View key={index.toString()} style={{display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 10}}>
-                                        <Image source={{uri: item.image}} width={20} height={20} />
-                                        <Text style={{marginLeft: 5, color: "#68696b"}}>{item.name}</Text>
+                                    <View key={index.toString()} style={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+                                        <Image source={{ uri: item.image }} width={20} height={20} />
+                                        <Text style={{ marginLeft: 5, color: "#68696b" }}>{item.name}</Text>
                                     </View>
                                 )
                             })}
                         </View>
-                        <View style={{width: "100%", marginBottom: 25, borderWidth: 1, borderRadius: 5, borderColor: "#939498"}}>
-                            <Pressable style={{padding: 3}}>
-                                <Text style={{width: "100%", textAlign: "center", color: "#a4a5a8"}}>Show All</Text>
+                        <View style={{ width: "100%", marginBottom: 25, borderWidth: 1, borderRadius: 5, borderColor: "#939498" }}>
+                            <Pressable style={{ padding: 3 }}>
+                                <Text style={{ width: "100%", textAlign: "center", color: "#a4a5a8" }}>Show All</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -227,9 +235,43 @@ export default function () {
                                 } />
                         </View>
                     </View>
-                </View> 
+                </View>
                 { /* Policies */}
-                <View></View>
+                <View style={{ width: "100%", display: "flex", alignItems: "center", marginTop: 25, borderBottomWidth: 2, borderBottomColor: "#f6f6f6" }}>
+                    <View style={{ width: "90%" }}>
+                        <View>
+                            <Text style={{ fontWeight: 600, fontSize: 20 }}>Policies</Text>
+                        </View>
+                        <View>
+                            {data.policies.map((item, index) => {
+                                return (
+                                    <View key={index.toString()} style={{ marginTop: 20, marginLeft: 20 }}>
+                                        <View>
+                                            <Text style={{ fontWeight: 600 }}>{item.name}</Text>
+                                        </View>
+                                        <View style={{ marginTop: 10, marginLeft: 30 }}>
+                                            {item.describe.map((item, index) => {
+                                                return <Text key={index.toString()} style={{ color: "#a1a2a6" }}>{item}</Text>
+                                            })}
+                                        </View>
+                                        <View style={{ marginTop: 10 }}>
+                                            <Text style={{ fontWeight: 600 }}>{item.type}</Text>
+                                        </View>
+                                        <View style={{ marginTop: 10, marginLeft: 30 }}>
+                                            <Text style={{ color: "#a1a2a6", textAlign: "justify" }} numberOfLines={2}>{item.description}</Text>
+                                        </View>
+                                        <View style={{ borderWidth: 2, borderColor: "#a1a2a6", borderRadius: 5, marginTop: 15, marginBottom: 20 }}>
+                                            <Pressable style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5 }}>
+                                                <Text style={{ color: "#a1a2a6" }}>View more</Text>
+                                                <AntDesign name="right" size={15} color="#a1a2a6" style={{ marginLeft: 10 }} />
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                )
+                            })}
+                        </View>
+                    </View>
+                </View>
                 { /* Description */}
                 <View style={{ width: "100%", marginTop: 25, display: "flex", alignItems: "center", borderBottomWidth: 2, borderBottomColor: "#f6f6f6" }}>
                     <View style={{ width: "90%" }}>
