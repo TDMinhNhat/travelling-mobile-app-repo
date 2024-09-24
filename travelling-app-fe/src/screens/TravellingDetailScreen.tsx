@@ -1,6 +1,6 @@
 import React from "react";
 import TravellingDetailStyle from "../style/TravellingDetailStyle";
-import { ImageBackground, Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Image, ImageBackground, Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -15,7 +15,7 @@ export default function () {
         averageStar: 4.5,
         totalReview: 44,
         facilities: [
-
+            
         ],
         services: [
 
@@ -83,7 +83,20 @@ export default function () {
                 <View></View>
                 <View></View>
                 <View></View>
-                <View></View>
+                <View style={{width: "90%", borderBottomWidth: 2, borderBottomColor: "#f6f6f6"}}>
+                    <View>
+                        <Image source={{uri: "https://picsum.photos/seed/picsum/536/354"}} style={{width: "100%", height: 200}}/>
+                    </View>
+                    <View style={{marginTop: 15}}>
+                        <Text style={{textAlign: "justify", maxHeight: 50, color: "#a1a2a6"}}>{data.description}</Text>
+                    </View>
+                    <View style={{borderWidth: 2, borderColor: "#a1a2a6", borderRadius: 5, marginTop: 15, marginBottom: 20}}>
+                        <Pressable style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5}}>
+                            <Text style={{color: "#a1a2a6"}}>View more</Text>
+                            <AntDesign name="right" size={15} color="#a1a2a6" style={{ marginLeft: 10 }} />
+                        </Pressable>
+                    </View>
+                </View>
                 <View style={TravellingDetailStyle.footer}>
                     <Text style={{color: "#abadb1"}}>From: <Text style={{fontWeight: "bold", color: "black"}}>${data.price}</Text>/night</Text>
                     <Pressable style={{backgroundColor: "#00bdd5", borderRadius: 10}}>
