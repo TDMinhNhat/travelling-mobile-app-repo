@@ -1,6 +1,6 @@
 import React from "react";
 import TravellingDetailStyle from "../style/TravellingDetailStyle";
-import { ImageBackground, SafeAreaView, Text, View } from "react-native";
+import { ImageBackground, Pressable, SafeAreaView, Text, View } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -51,6 +51,11 @@ export default function () {
         <View></View>
         <View></View>
         <View></View>
-        <View></View>
+        <View style={TravellingDetailStyle.footer}>
+            <Text>From: <Text>${data.price}</Text>/night</Text>
+            <Pressable>
+                <Text>Book now</Text>                                  
+            </Pressable>
+        </View>
     </SafeAreaView>
 }

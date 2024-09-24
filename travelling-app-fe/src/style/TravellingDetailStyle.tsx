@@ -9,5 +9,12 @@ export default StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         marginTop: StatusBar.currentHeight
+    },
+    footer: {
+        width: "90%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
     }
 })
