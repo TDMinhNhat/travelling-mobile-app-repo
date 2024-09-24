@@ -3,8 +3,11 @@ import { SafeAreaView, View, Text, Pressable, Image } from "react-native";
 import BookingStyle from "../style/BookingStyle";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { RadioButton } from "react-native-radio-buttons-group";
 
 export default function () {
+
+    const [paymentOption, setPaymentOption] = React.useState("full");
 
     const data = {
         title: "Balian treehouse",
@@ -42,8 +45,8 @@ export default function () {
                     </View>
                     <View style={{ marginTop: 20, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                         <View>
-                            <Text style={{color: "#262a2d", fontWeight: 600}}>Dates</Text>
-                            <Text style={{color: "#7c7d7f"}}>{data.dates}</Text>
+                            <Text style={{ color: "#262a2d", fontWeight: 600 }}>Dates</Text>
+                            <Text style={{ color: "#7c7d7f" }}>{data.dates}</Text>
                         </View>
                         <View>
                             <Pressable>
@@ -53,13 +56,52 @@ export default function () {
                     </View>
                     <View style={{ marginTop: 20, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                         <View>
-                            <Text style={{color: "#262a2d", fontWeight: 600}}>Guests</Text>
-                            <Text style={{color: "#7c7d7f"}}>{data.guests} guest</Text>
+                            <Text style={{ color: "#262a2d", fontWeight: 600 }}>Guests</Text>
+                            <Text style={{ color: "#7c7d7f" }}>{data.guests} guest</Text>
                         </View>
                         <View>
                             <Pressable>
                                 <AntDesign name="edit" size={20} color="black" />
                             </Pressable>
+                        </View>
+                    </View>
+                </View>
+                <View style={{ width: "90%", marginTop: 30, borderBottomColor: "#f7f7f7", borderBottomWidth: 1 }}>
+                    <View>
+                        <Text style={{ fontWeight: 600, fontSize: 20 }}>Payment Options</Text>
+                    </View>
+                    <View style={{ marginTop: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                        <View style={{ width: "80%" }}>
+                            <Text style={{ fontWeight: 600 }}>Pay in full</Text>
+                            <Text style={{ color: "#7c7d7f" }}>Pay $30 now to finalize your booking</Text>
+                        </View>
+                        <View>
+                            <RadioButton
+                                color="#7c7d7f"
+                                borderSize={1}
+                                borderColor="#7c7d7f"
+                                selected={paymentOption == "full"}
+                                value="full"
+                                id="1"
+                                onPress={() => setPaymentOption("full")}
+                            />
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 20, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 70 }}>
+                        <View style={{ width: "80%" }}>
+                            <Text style={{ fontWeight: 600 }}>Pay a part now</Text>
+                            <Text style={{ color: "#7c7d7f" }}>You can make a paritial payment now and the remaining amount at a later time</Text>
+                        </View>
+                        <View>
+                            <RadioButton
+                                color="#7c7d7f"
+                                borderSize={1}
+                                borderColor="#7c7d7f"
+                                selected={paymentOption == "part"}
+                                value="part"
+                                id="2"
+                                onPress={() => setPaymentOption("part")}
+                            />
                         </View>
                     </View>
                 </View>
