@@ -85,9 +85,9 @@ export default function () {
                 <View></View>
                 <View></View>
                 <View style={TravellingDetailStyle.footer}>
-                    <Text>From: <Text>${data.price}</Text>/night</Text>
-                    <Pressable>
-                        <Text>Book now</Text>
+                    <Text style={{color: "#abadb1"}}>From: <Text style={{fontWeight: "bold", color: "black"}}>${data.price}</Text>/night</Text>
+                    <Pressable style={{backgroundColor: "#00bdd5", borderRadius: 10}}>
+                        <Text style={{color: "white", fontWeight: "bold", paddingLeft: 30, paddingRight: 30, paddingTop: 10, paddingBottom: 10}}>Book now</Text>
                     </Pressable>
                 </View>
             </View>
