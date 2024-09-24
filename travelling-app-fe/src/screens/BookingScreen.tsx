@@ -2,6 +2,7 @@ import React from "react";
 import { SafeAreaView, View, Text, Pressable, Image } from "react-native";
 import BookingStyle from "../style/BookingStyle";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function () {
 
@@ -19,20 +20,47 @@ export default function () {
         <View style={{ width: "100%", display: "flex", alignItems: "center" }}>
             <View style={{ borderBottomColor: "#f4f4f4", borderBottomWidth: 1, width: "100%", alignItems: "center" }}>
                 <View style={{ width: "90%", display: "flex", flexDirection: "row", justifyContent: "space-between", borderColor: "#f6f6f6", borderWidth: 1, borderRadius: 10, padding: 10 }}>
-                    <View style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                    <View style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                         <View>
-                            <Text style={{color: "#717274"}}><Text style={{fontWeight: 600, fontSize: 20, color: "black"}}>${data.price}</Text>/night</Text>
+                            <Text style={{ color: "#717274" }}><Text style={{ fontWeight: 600, fontSize: 20, color: "black" }}>${data.price}</Text>/night</Text>
                         </View>
                         <View>
-                            <Text style={{color: "#717274"}}>{data.title}</Text>
+                            <Text style={{ color: "#717274" }}>{data.title}</Text>
                         </View>
-                        <View style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                             <FontAwesome name="star" size={15} color="#f1c640" />
-                            <Text style={{marginLeft: 5, color: "#717274"}}>{data.averageStar} ({data.totalReview})</Text>
+                            <Text style={{ marginLeft: 5, color: "#717274" }}>{data.averageStar} ({data.totalReview})</Text>
                         </View>
                     </View>
                     <View>
                         <Image source={{ uri: data.image }} width={100} height={100} borderRadius={5} />
+                    </View>
+                </View>
+                <View style={{ width: "90%", marginTop: 30, borderBottomColor: "#f7f7f7", borderBottomWidth: 1 }}>
+                    <View>
+                        <Text style={{ fontWeight: 700, fontSize: 20 }}>Your Trip</Text>
+                    </View>
+                    <View style={{ marginTop: 20, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                        <View>
+                            <Text style={{color: "#262a2d", fontWeight: 600}}>Dates</Text>
+                            <Text style={{color: "#7c7d7f"}}>{data.dates}</Text>
+                        </View>
+                        <View>
+                            <Pressable>
+                                <AntDesign name="edit" size={20} color="black" />
+                            </Pressable>
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 20, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                        <View>
+                            <Text style={{color: "#262a2d", fontWeight: 600}}>Guests</Text>
+                            <Text style={{color: "#7c7d7f"}}>{data.guests} guest</Text>
+                        </View>
+                        <View>
+                            <Pressable>
+                                <AntDesign name="edit" size={20} color="black" />
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
             </View>
