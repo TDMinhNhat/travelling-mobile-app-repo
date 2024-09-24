@@ -13,8 +13,6 @@ export default StyleSheet.create({
     footer: {
         height: 80,
         width: "100%",
-        position: "absolute",
-        bottom: 0,
         backgroundColor: "white",
         display: "flex",
         alignItems: "center",
