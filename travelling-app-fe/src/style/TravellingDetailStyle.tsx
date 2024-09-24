@@ -10,6 +10,15 @@ export default StyleSheet.create({
         justifyContent: "space-between",
         marginTop: StatusBar.currentHeight
     },
+    action: {
+        backgroundColor: "rgba(0,0,0,0.10)",
+        width: 25,
+        height: 25,
+        display: "flex",
+        alignItems: "center", 
+        justifyContent: "center", 
+        borderRadius: 12.5
+    },
     footer: {
         width: "90%",
         display: "flex",

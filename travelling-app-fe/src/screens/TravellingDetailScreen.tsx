@@ -31,10 +31,10 @@ export default function () {
             <ImageBackground source={{ uri: data.image }} style={{ width: "100%", height: 200, position: "relative" }}>
                 <View style={{ position: "absolute", top: 0, marginTop: 10, marginLeft: 10, marginRight: 10 }}>
                     <View style={{ width: "100%", flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                        <View style={{ backgroundColor: "rgba(0,0,0,0.10)", width: 25, height: 25, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 12.5 }}>
+                        <View style={TravellingDetailStyle.action}>
                             <AntDesign name="arrowleft" size={15} color="white" />
                         </View>
-                        <View style={{ backgroundColor: "rgba(0,0,0,0.10)", width: 25, height: 25, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 12.5 }}>
+                        <View style={TravellingDetailStyle.action}>
                             <Feather name="heart" size={15} color="white" />
                         </View>
                     </View>
