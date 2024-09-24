@@ -1,8 +1,8 @@
 import { SafeAreaView } from "react-native";
-import DashBoardScreen from "./src/screens/DashBoardScreen";
+import TravellingDetailScreen from "./src/screens/TravellingDetailScreen";
 
 export default function App() {
   return (
-    <DashBoardScreen />
+    <TravellingDetailScreen />
   );
 }

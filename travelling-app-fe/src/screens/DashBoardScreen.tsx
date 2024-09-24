@@ -110,7 +110,7 @@ export default function () {
                 return (
                     <View style={{ marginTop: 20 }}>
                         <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image }} style={{ width: "100%", height: 300, position: "relative" }}>
-                            <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: "50%", right: 0, marginTop: 10, marginRight: 10 }}>
+                            <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
                                 <Feather name="heart" size={24} color="#EAEEF0" />
                             </View>
                         </ImageBackground>
