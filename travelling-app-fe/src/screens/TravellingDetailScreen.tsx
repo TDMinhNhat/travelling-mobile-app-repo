@@ -16,10 +16,40 @@ export default function () {
         averageStar: 4.5,
         totalReview: 44,
         facilities: [
-
+            {
+                name: "Guests",
+                number: 2
+            },
+            {
+                name: "Bedrooms",
+                number: 1
+            },
+            {
+                name: "Beds",
+                number: 1
+            },
+            {
+                name: "Bathrooms",
+                number: 1
+            }
         ],
         services: [
-
+            {
+                name: "Wifi",
+                image: "https://picsum.photos/seed/picsum/536/354"
+            },
+            {
+                name: "Kitchen",
+                image: "https://picsum.photos/seed/picsum/536/354"
+            },
+            {
+                name: "Pool",
+                image: "https://picsum.photos/seed/picsum/536/354"
+            },
+            {
+                name: "Garden",
+                image: "https://picsum.photos/seed/picsum/536/354"
+            }
         ],
         policies: [
 
@@ -125,10 +155,36 @@ export default function () {
                     </View>
                 </View>
                 { /* Facilities and Services */}
-                <View></View>
+                <View style={{ width: "100%", marginTop: 25, flex: 1, alignItems: "center", borderBottomWidth: 2, borderBottomColor: "#f6f6f6" }}>
+                    <View style={{width: "90%"}}>
+                        <View>
+                            <Text style={{fontWeight: 600, fontSize: 20}}>Facilities & Services</Text>
+                        </View>
+                        <View style={{display: "flex", flexDirection: "row", marginTop: 20}}>
+                            {data.facilities.map((item, index) => {
+                                return <Text key={index.toString()} style={{ color: "#79797b", marginRight: 20 }}>{item.number} {item.name}</Text>
+                            })}
+                        </View>
+                        <View style={{width: "100%", marginTop: 20, marginBottom: 20, display: "flex"}}>
+                            {data.services.map((item, index) => {
+                                return (
+                                    <View key={index.toString()} style={{display: "flex", flexDirection: "row", alignItems: "center", marginBottom: 10}}>
+                                        <Image source={{uri: item.image}} width={20} height={20} />
+                                        <Text style={{marginLeft: 5, color: "#68696b"}}>{item.name}</Text>
+                                    </View>
+                                )
+                            })}
+                        </View>
+                        <View style={{width: "100%", marginBottom: 25, borderWidth: 1, borderRadius: 5, borderColor: "#939498"}}>
+                            <Pressable style={{padding: 3}}>
+                                <Text style={{width: "100%", textAlign: "center", color: "#a4a5a8"}}>Show All</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
                 { /* Reviews */}
-                <View style={{ width: "100%", borderBottomColor: "#f6f6f6", borderBottomWidth: 2, display: "flex", alignItems: "center" }}>
-                    <View style={{ width: "90%", marginTop: 25 }}>
+                <View style={{ width: "100%", marginTop: 25, borderBottomColor: "#f6f6f6", borderBottomWidth: 2, display: "flex", alignItems: "center" }}>
+                    <View style={{ width: "90%" }}>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontWeight: 800 }}>Reviews</Text>
                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -171,16 +227,16 @@ export default function () {
                                 } />
                         </View>
                     </View>
-                </View>
+                </View> 
                 { /* Policies */}
                 <View></View>
                 { /* Description */}
-                <View style={{width: "100%", display: "flex", alignItems: "center", marginTop: 25, borderBottomWidth: 2, borderBottomColor: "#f6f6f6"}}>
-                    <View style={{ width: "90%"  }}>
+                <View style={{ width: "100%", marginTop: 25, display: "flex", alignItems: "center", borderBottomWidth: 2, borderBottomColor: "#f6f6f6" }}>
+                    <View style={{ width: "90%" }}>
                         <View>
-                            <Text style={{fontWeight: 600, fontSize: 20}}>Description</Text>
+                            <Text style={{ fontWeight: 600, fontSize: 20 }}>Description</Text>
                         </View>
-                        <View style={{marginTop: 20}}>
+                        <View style={{ marginTop: 20 }}>
                             <Image source={{ uri: "https://picsum.photos/seed/picsum/536/354" }} style={{ width: "100%", height: 200 }} />
                         </View>
                         <View style={{ marginTop: 15 }}>
