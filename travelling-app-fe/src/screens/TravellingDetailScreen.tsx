@@ -127,8 +127,8 @@ export default function () {
                 { /* Facilities and Services */}
                 <View></View>
                 { /* Reviews */}
-                <View style={{width: "100%", borderBottomColor: "#f6f6f6", borderBottomWidth: 2, display: "flex", alignItems: "center"}}>
-                    <View style={{ width: "90%", marginTop: 25, borderBottomColor: "#f6f6f6", borderBottomWidth: 2 }}>
+                <View style={{ width: "100%", borderBottomColor: "#f6f6f6", borderBottomWidth: 2, display: "flex", alignItems: "center" }}>
+                    <View style={{ width: "90%", marginTop: 25 }}>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontWeight: 800 }}>Reviews</Text>
                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
@@ -163,8 +163,8 @@ export default function () {
                                                 <Rating imageSize={20} startingValue={target.item.star} readonly={true} />
                                             </View>
                                         </View>
-                                        <View style={{ height: 60, marginTop: 20 }}>
-                                            <Text style={{ color: "#828e8e", textAlign: "justify" }}>{target.item.review}</Text>
+                                        <View style={{ marginTop: 20 }}>
+                                            <Text style={{ color: "#828e8e", textAlign: "justify" }} numberOfLines={2}>{target.item.review}</Text>
                                         </View>
                                     </View>
                                 }
@@ -175,18 +175,23 @@ export default function () {
                 { /* Policies */}
                 <View></View>
                 { /* Description */}
-                <View style={{ width: "90%", borderBottomWidth: 2, borderBottomColor: "#f6f6f6" }}>
-                    <View>
-                        <Image source={{ uri: "https://picsum.photos/seed/picsum/536/354" }} style={{ width: "100%", height: 200 }} />
-                    </View>
-                    <View style={{ marginTop: 15 }}>
-                        <Text style={{ textAlign: "justify", maxHeight: 50, color: "#a1a2a6" }}>{data.description}</Text>
-                    </View>
-                    <View style={{ borderWidth: 2, borderColor: "#a1a2a6", borderRadius: 5, marginTop: 15, marginBottom: 20 }}>
-                        <Pressable style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5 }}>
-                            <Text style={{ color: "#a1a2a6" }}>View more</Text>
-                            <AntDesign name="right" size={15} color="#a1a2a6" style={{ marginLeft: 10 }} />
-                        </Pressable>
+                <View style={{width: "100%", display: "flex", alignItems: "center", marginTop: 25, borderBottomWidth: 2, borderBottomColor: "#f6f6f6"}}>
+                    <View style={{ width: "90%"  }}>
+                        <View>
+                            <Text style={{fontWeight: 600, fontSize: 20}}>Description</Text>
+                        </View>
+                        <View style={{marginTop: 20}}>
+                            <Image source={{ uri: "https://picsum.photos/seed/picsum/536/354" }} style={{ width: "100%", height: 200 }} />
+                        </View>
+                        <View style={{ marginTop: 15 }}>
+                            <Text style={{ textAlign: "justify", color: "#a1a2a6" }} numberOfLines={3}>{data.description}</Text>
+                        </View>
+                        <View style={{ borderWidth: 2, borderColor: "#a1a2a6", borderRadius: 5, marginTop: 15, marginBottom: 20 }}>
+                            <Pressable style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5 }}>
+                                <Text style={{ color: "#a1a2a6" }}>View more</Text>
+                                <AntDesign name="right" size={15} color="#a1a2a6" style={{ marginLeft: 10 }} />
+                            </Pressable>
+                        </View>
                     </View>
                 </View>
                 { /* Footer for Booking */}
