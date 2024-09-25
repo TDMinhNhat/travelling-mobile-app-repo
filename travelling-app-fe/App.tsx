@@ -1,8 +1,8 @@
 import { SafeAreaView } from "react-native";
-import BookingScreen from "./src/screens/BookingScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 export default function App() {
   return (
-    <BookingScreen />
+    <LoginScreen />
   );
 }
