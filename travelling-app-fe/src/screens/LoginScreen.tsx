@@ -12,11 +12,11 @@ export default function () {
 
     return (
         <SafeAreaView style={LoginStyle.container}>
-            <View style={{ width: "90%" }}>
+            <View style={{ width: "90%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-around" }}>
                 <View style={{ marginTop: 40 }}>
                     <Text style={{ fontWeight: 800, fontSize: 20 }}>Login Account</Text>
                 </View>
-                <View style={{ marginTop: 30 }}>
+                <View>
                     <View>
                         <Text>Email:</Text>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: "center", marginTop: 5 }}>
@@ -75,7 +75,14 @@ export default function () {
 
                     </View>
                 </View>
-                <View></View>
+                <View>
+                    <View style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+                        <Text>Hasn't ever an account yet?</Text>
+                        <Pressable style={{marginLeft: 10}}>
+                            <Text style={{color: "#589dd5", textDecorationLine: "underline"}}>Create an account</Text>
+                        </Pressable>
+                    </View>
+                </View>
             </View>
         </SafeAreaView>
     )
