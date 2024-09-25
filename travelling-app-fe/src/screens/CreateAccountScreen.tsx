@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import CountryPicker from 'react-native-country-picker-modal';  // Import CountryPicker
+import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';  // Import CountryPicker
 import { Entypo } from '@expo/vector-icons'; // Import icon mũi tên chỉ xuống
 import { FontAwesome } from '@expo/vector-icons';
-import styles from '../styles/styleCreateAccountScreen';  
+import styles from '../style/styleCreateAccountScreen';
 
 const CreateAccountScreen = () => {
-  const [countryCode, setCountryCode] = useState('US');  // Mã quốc gia mặc định là Mỹ
-  const [callingCode, setCallingCode] = useState('1');   // Mã gọi điện mặc định là +1
+  const [countryCode, setCountryCode] = useState<CountryCode>('VN');  // Mã quốc gia mặc định là Mỹ
+  const [callingCode, setCallingCode] = useState('84');   // Mã gọi điện mặc định là +1
 
-  const onSelect = (country) => {
+  const onSelect = (country: Country) => {
     // Kiểm tra country có hợp lệ trước khi cập nhật
     if (country && country.cca2 && country.callingCode) {
       setCountryCode(country.cca2);  // Cập nhật mã quốc gia

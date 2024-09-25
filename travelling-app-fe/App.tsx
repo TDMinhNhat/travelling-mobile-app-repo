@@ -1,8 +1,8 @@
 import { SafeAreaView } from "react-native";
-import LoginScreen from "./src/screens/LoginScreen";
+import CreateAccountScreen from "./src/screens/CreateAccountScreen";
 
 export default function App() {
   return (
-    <LoginScreen />
+    <CreateAccountScreen />
   );
 }
