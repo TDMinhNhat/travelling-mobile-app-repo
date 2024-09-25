@@ -1,7 +1,6 @@
 spring:
   application:
     name: api-gateway-service
-  port: 8081
   main:
     web-application-type: reactive
 eureka:
@@ -10,3 +9,5 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8081
