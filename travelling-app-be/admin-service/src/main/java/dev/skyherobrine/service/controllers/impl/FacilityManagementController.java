@@ -5,11 +5,13 @@ import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.models.mariadb.Facility;
 import dev.skyherobrine.service.repositories.mariadb.FacilityRepository;
 import dev.skyherobrine.service.services.ApiNotSupported;
+import dev.skyherobrine.service.utils.ObjectParser;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class FacilityManagementController implements IManagement<String, Long> {
 
+    @Autowired
+    private KafkaTemplate<String,Object> template;
     @Autowired
     private FacilityRepository fr;
 
@@ -28,6 +32,7 @@ public class FacilityManagementController implements IManagement<String, Long> {
             Facility facility = new Facility(s);
             fr.save(facility);
             log.info("Add facility successfully");
+            template.send("insert-facility", ObjectParser.objectToJson(facility));
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_OK,
                     "Add facility successfully",
