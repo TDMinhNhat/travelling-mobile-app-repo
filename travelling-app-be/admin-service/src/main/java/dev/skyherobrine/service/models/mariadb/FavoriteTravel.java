@@ -1,5 +1,6 @@
 package dev.skyherobrine.service.models.mariadb;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ public class FavoriteTravel {
     @EmbeddedId @NonNull
     private FavoriteTravelID id;
     @Column(name = "date_created", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
 
     @Embeddable

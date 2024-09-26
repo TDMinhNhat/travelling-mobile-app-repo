@@ -1,5 +1,6 @@
 package dev.skyherobrine.service.models.mariadb;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.skyherobrine.service.enums.LoginProvider;
 import dev.skyherobrine.service.enums.UserRole;
 import jakarta.persistence.*;
@@ -18,6 +19,7 @@ public class User {
     @Column(nullable = false) @NonNull
     private Boolean sex;
     @Column(nullable = false) @NonNull
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @Column(unique = true, nullable = true) @NonNull
     private String username;
@@ -38,8 +40,10 @@ public class User {
     @Column(nullable = false)
     private boolean status;
     @Column(name = "date_created", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
     @Column(name = "date_modified", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 
     @PrePersist

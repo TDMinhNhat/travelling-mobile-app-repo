@@ -1,5 +1,6 @@
 package dev.skyherobrine.service.models.mariadb;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,8 +16,10 @@ public class TravellingFacility {
     @Column(nullable = false) @NonNull
     private Integer quantity;
     @Column(name = "date_created", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
     @Column(name = "date_modified", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 
     @Embeddable
