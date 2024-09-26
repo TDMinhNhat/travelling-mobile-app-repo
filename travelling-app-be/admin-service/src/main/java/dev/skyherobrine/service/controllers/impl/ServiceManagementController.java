@@ -6,11 +6,13 @@ import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.models.mariadb.Service;
 import dev.skyherobrine.service.repositories.mariadb.ServiceRepository;
 import dev.skyherobrine.service.services.ApiNotSupported;
+import dev.skyherobrine.service.utils.ObjectParser;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,14 +21,17 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceManagementController implements IManagement<ServiceDTO, Long> {
 
     @Autowired
+    private KafkaTemplate<String,Object> template;
+    @Autowired
     private ServiceRepository sr;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @Override
-    public ResponseEntity<Response> add(@RequestBody ServiceDTO serviceDTO) {
+    public ResponseEntity add(@RequestBody ServiceDTO serviceDTO) {
         try {
             log.info("Call the method add service");
-            sr.save(serviceDTO.toObject());
+            Service target = sr.save(serviceDTO.toObject());
+            template.send("insert-service", ObjectParser.objectToJson(target));
             log.info("Add service successfully");
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
