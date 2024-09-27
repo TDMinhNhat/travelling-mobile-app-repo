@@ -1,5 +1,5 @@
 package dev.skyherobrine.service.enums;
 
 public enum LoginProvider {
-    GOOGLE, FACEBOOK, ICLOUD
+    GOOGLE, FACEBOOK, ICLOUD, APPLICATION
 }
