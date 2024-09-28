@@ -37,8 +37,16 @@ public class Booking {
     @Column(name = "total_price", nullable = false) @NonNull
     private Double totalPrice;
 
-    @PrePersist
-    public void onPersist() {
-        bookingDate = LocalDate.now();
+    public Booking(@NonNull String bookId, @NonNull User userId, @NonNull Travelling travelId, @NonNull LocalDate dateTrip, @NonNull Integer guestJoin, @NonNull Integer perDayNight, @NonNull PaymentOptions options, @NonNull PaymentMethod method, LocalDate bookingDate, @NonNull Double totalPrice) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.travelId = travelId;
+        this.dateTrip = dateTrip;
+        this.guestJoin = guestJoin;
+        this.perDayNight = perDayNight;
+        this.options = options;
+        this.method = method;
+        this.bookingDate = bookingDate;
+        this.totalPrice = totalPrice;
     }
 }
