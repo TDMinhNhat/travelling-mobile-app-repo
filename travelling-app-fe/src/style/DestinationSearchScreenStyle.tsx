@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#00A8E8',
-    paddingVertical: 15,
+    backgroundColor: '#00BCD4',
+    paddingVertical: 10,
     borderRadius: 8,
-    width: '40%',
+    width: '30%',
   },
   searchButtonText: {
     color: '#fff',
