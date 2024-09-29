@@ -10,6 +10,8 @@ import DashBoardScreen from './src/screens/DashBoardScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import TravellingDetailScreen from './src/screens/TravellingDetailScreen';
 import StayScreen from './src/screens/StayScreen';
+import GuestScreen from './src/screens/GuestScreen';
+import DescriptionScreen from './src/screens/DescriptionScreen';
 
 // Khởi tạo Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -17,7 +19,17 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="StayScreen">
+      <Stack.Navigator initialRouteName="DescriptionScreen">
+      <Stack.Screen 
+          name="DescriptionScreen" 
+          component={DescriptionScreen} 
+          options={{ title: 'DescriptionScreen' }} 
+        />  
+      <Stack.Screen 
+          name="GuestScreen" 
+          component={GuestScreen} 
+          options={{ title: 'GuestScreen' }} 
+        />  
       <Stack.Screen 
           name="StayScreen" 
           component={StayScreen} 
