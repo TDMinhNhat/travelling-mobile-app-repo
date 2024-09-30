@@ -14,6 +14,7 @@ import GuestScreen from './src/screens/GuestScreen';
 import DescriptionScreen from './src/screens/DescriptionScreen';
 import FacilitiesAndServicesScreen from './src/screens/FacilitiesAndServicesScreen';
 import ReviewsScreen from './src/screens/ReviewsScreen';
+import PaymentSuccessScreen from './src/screens/PaymentSuccessScreen';
 
 // Khởi tạo Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -21,7 +22,13 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="ReviewsScreen">
+      <Stack.Navigator initialRouteName="PaymentSuccessScreen">
+
+      <Stack.Screen
+        name="PaymentSuccessScreen"
+        component={PaymentSuccessScreen}
+        options={{ title: 'Payment Success' }}
+        />
       <Stack.Screen
         name="ReviewsScreen"
         component={ReviewsScreen}
