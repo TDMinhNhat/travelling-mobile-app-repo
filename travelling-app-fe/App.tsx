@@ -12,6 +12,8 @@ import TravellingDetailScreen from './src/screens/TravellingDetailScreen';
 import StayScreen from './src/screens/StayScreen';
 import GuestScreen from './src/screens/GuestScreen';
 import DescriptionScreen from './src/screens/DescriptionScreen';
+import FacilitiesAndServicesScreen from './src/screens/FacilitiesAndServicesScreen';
+import ReviewsScreen from './src/screens/ReviewsScreen';
 
 // Khởi tạo Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -19,7 +21,18 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DescriptionScreen">
+      <Stack.Navigator initialRouteName="ReviewsScreen">
+      <Stack.Screen
+        name="ReviewsScreen"
+        component={ReviewsScreen}
+        options={{ title: 'Reviews' }}
+      />
+
+      <Stack.Screen
+          name="FacilitiesAndServicesScreen"
+          component={FacilitiesAndServicesScreen}
+          options={{ title: 'Facilities & Services' }}
+      />
       <Stack.Screen 
           name="DescriptionScreen" 
           component={DescriptionScreen} 
