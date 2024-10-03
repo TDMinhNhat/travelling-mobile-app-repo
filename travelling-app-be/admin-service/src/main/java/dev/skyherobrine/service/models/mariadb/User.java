@@ -40,10 +40,10 @@ public class User {
     @Column(nullable = false)
     private boolean status;
     @Column(name = "date_created", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
     @Column(name = "date_modified", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 
     @PrePersist

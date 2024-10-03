@@ -14,7 +14,7 @@ public class FavoriteTravel {
     @EmbeddedId @NonNull
     private FavoriteTravelID id;
     @Column(name = "date_created", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
 
     @Embeddable

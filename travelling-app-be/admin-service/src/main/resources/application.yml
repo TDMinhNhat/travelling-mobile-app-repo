@@ -36,3 +36,5 @@ eureka:
     fetch-registry: true
 server:
   port: 9000
+aws_access_key: AKIA2KKFZ2FFVNGA53QB
+aws_secret_key: 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

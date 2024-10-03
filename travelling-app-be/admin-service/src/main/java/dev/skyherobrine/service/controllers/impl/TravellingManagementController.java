@@ -6,16 +6,24 @@ import dev.skyherobrine.service.exceptions.DuplicatePrimaryKeyValue;
 import dev.skyherobrine.service.exceptions.EntityNotFound;
 import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.models.mariadb.Travelling;
+import dev.skyherobrine.service.models.mariadb.TravellingImage;
 import dev.skyherobrine.service.repositories.mariadb.*;
 import dev.skyherobrine.service.repositories.mongodb.TravellingDescribeRepository;
 import dev.skyherobrine.service.repositories.mongodb.TravellingPolicyRepository;
 import dev.skyherobrine.service.services.TravellingServices;
+import dev.skyherobrine.service.services.impl.TravellingImageFileService;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("admin/api/v1/travelling")
@@ -34,6 +42,12 @@ public class TravellingManagementController implements IManagement<TravellingDTO
     private TravellingPolicyRepository tpr;
     @Autowired
     private TravellingServices services;
+    @Autowired
+    private KafkaTemplate<String, Object> template;
+    @Autowired
+    private TravellingImageFileService tifs;
+    @Autowired
+    private TravellingImageRepository tir;
 
     @PostMapping
     @Override
@@ -68,7 +82,47 @@ public class TravellingManagementController implements IManagement<TravellingDTO
             log.error("Something wrong when add travelling");
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_SERVER_ERROR,
-                    "Somethign wrong when add travelling",
+                    "Something wrong when add travelling",
+                    e.getCause()
+            ));
+        }
+    }
+
+    @PostMapping("images")
+    public ResponseEntity<Response> addImages(@RequestParam("travelId") String travelId, @RequestParam("images") MultipartFile[] images) {
+        try {
+            Travelling target = tr.findById(travelId).orElseThrow(() -> new EntityNotFound("The travel id = " + travelId + " was not found!"));
+            String[] listNameFiles = tifs.uploadFile(images);
+            URL[] listURLs = tifs.getURIFile(listNameFiles);
+
+            List<TravellingImage> travellingImages = new ArrayList<>();
+
+            for(int i = 0; i < listNameFiles.length; ++i) {
+                travellingImages.add(new TravellingImage(
+                        listNameFiles[i],
+                        listURLs[i].getPath(),
+                        target
+                ));
+            }
+            tir.saveAll(travellingImages);
+
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.SC_OK,
+                    "Add images into travelling successfully",
+                    true
+            ));
+        } catch (EntityNotFound e) {
+            log.warn("The travel id = " + travelId + " was not found!");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.SC_BAD_REQUEST,
+                    "The travel id = " + travelId + " was not found!",
+                    false
+            ));
+        } catch (Exception e) {
+            log.error("Something wrong when add images into travelling");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.SC_SERVER_ERROR,
+                    "Something wrong when add images into travelling",
                     e.getCause()
             ));
         }

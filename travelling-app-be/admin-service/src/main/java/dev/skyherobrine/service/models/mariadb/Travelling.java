@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity @Table(name = "travelling")
 @Getter @Setter
@@ -32,11 +33,13 @@ public class Travelling {
     @Column(nullable = false)
     private boolean status;
     @Column(name = "date_created", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
     @Column(name = "date_modified", nullable = false)
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
+    @OneToMany(mappedBy = "travelling", targetEntity = TravellingImage.class)
+    private List<TravellingImage> images;
 
     @PrePersist
     public void onPersist() {
