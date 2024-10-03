@@ -16,6 +16,7 @@ import dev.skyherobrine.service.repositories.mongodb.TravellingDescribeRepositor
 import dev.skyherobrine.service.repositories.mongodb.TravellingPolicyRepository;
 import dev.skyherobrine.service.services.TravellingServices;
 import dev.skyherobrine.service.services.impl.TravellingImageFileService;
+import dev.skyherobrine.service.utils.ObjectParser;
 import jakarta.transaction.TransactionManager;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -132,6 +133,7 @@ public class TravellingManagementController implements IManagement<TravellingDTO
                 ));
             }
             tir.saveAll(travellingImages);
+            template.send("insert-travelling-image", ObjectParser.objectToJson(travellingImages));
 
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_OK,
