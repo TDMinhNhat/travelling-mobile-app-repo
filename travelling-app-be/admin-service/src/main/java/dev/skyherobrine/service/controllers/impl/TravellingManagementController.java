@@ -6,12 +6,17 @@ import dev.skyherobrine.service.exceptions.DuplicatePrimaryKeyValue;
 import dev.skyherobrine.service.exceptions.EntityNotFound;
 import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.models.mariadb.Travelling;
+import dev.skyherobrine.service.models.mariadb.TravellingFacility;
 import dev.skyherobrine.service.models.mariadb.TravellingImage;
+import dev.skyherobrine.service.models.mariadb.TravellingService;
+import dev.skyherobrine.service.models.mongodb.TravellingDescribe;
+import dev.skyherobrine.service.models.mongodb.TravellingPolicy;
 import dev.skyherobrine.service.repositories.mariadb.*;
 import dev.skyherobrine.service.repositories.mongodb.TravellingDescribeRepository;
 import dev.skyherobrine.service.repositories.mongodb.TravellingPolicyRepository;
 import dev.skyherobrine.service.services.TravellingServices;
 import dev.skyherobrine.service.services.impl.TravellingImageFileService;
+import jakarta.transaction.TransactionManager;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.HttpStatus;
@@ -23,7 +28,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("admin/api/v1/travelling")
@@ -48,30 +55,49 @@ public class TravellingManagementController implements IManagement<TravellingDTO
     private TravellingImageFileService tifs;
     @Autowired
     private TravellingImageRepository tir;
+    @Autowired
+    private TransactionManager transaction;
 
     @PostMapping
     @Override
-    public ResponseEntity<Response> add(@RequestBody TravellingDTO travellingDTO) {
+    public ResponseEntity<Response> add(@RequestBody TravellingDTO travellingDTO) throws Exception {
+        log.info("Call the method add travelling");
+        transaction.begin();
         try {
-            log.info("Call the method add travelling");
+            Map<String,Object> travelling = new HashMap<>();
             Travelling target = tr.findById(travellingDTO.getTravelId()).orElse(null);
             if (target != null) throw new DuplicatePrimaryKeyValue("Duplicate key value");
+
             target = tr.save(travellingDTO.toTravellingObject());
+            travelling.put("travelling", target);
             log.info("Add travelling successfully");
-            tdr.save(travellingDTO.toTravellingDescribeObject());
+
+            TravellingDescribe travellingDescribe = tdr.save(travellingDTO.toTravellingDescribeObject());
+            travelling.put("travellingDescribe", travellingDescribe);
             log.info("Add travelling describe successfully");
-            tpr.save(travellingDTO.toTravellingPolicyObject());
+
+            TravellingPolicy travellingPolicy = tpr.save(travellingDTO.toTravellingPolicyObject());
+            travelling.put("travellingPolicy", travellingPolicy);
             log.info("Add travelling policies successfully");
-            tsr.saveAll(services.getAllTravellingService(travellingDTO.getServices(), target));
+
+            List<TravellingService> travellingServices = tsr.saveAll(services.getAllTravellingService(travellingDTO.getServices(), target));
+            travelling.put("travellingServices", travellingServices);
             log.info("Add travelling services successfully");
-            tfr.saveAll(services.getAllTravellingFacility(travellingDTO.getFacilities(), target));
+
+            List<TravellingFacility> travellingFacilities = tfr.saveAll(services.getAllTravellingFacility(travellingDTO.getFacilities(), target));
+            travelling.put("travellingFacilities", travellingFacilities);
             log.info("Add travelling facilities successfully");
+
+            template.send("insert-travelling", travelling);
+
+            transaction.commit();
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_OK,
                     "Add travelling successfully",
                     true
             ));
         } catch (DuplicatePrimaryKeyValue e) {
+            transaction.rollback();
             log.warn("Duplicate primary key value travelling");
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_BAD_REQUEST,
@@ -79,6 +105,7 @@ public class TravellingManagementController implements IManagement<TravellingDTO
                     false
             ));
         } catch (Exception e) {
+            transaction.rollback();
             log.error("Something wrong when add travelling");
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_SERVER_ERROR,

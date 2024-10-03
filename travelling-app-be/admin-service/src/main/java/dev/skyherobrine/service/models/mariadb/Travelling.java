@@ -38,8 +38,6 @@ public class Travelling {
     @Column(name = "date_modified", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
-    @OneToMany(mappedBy = "travelling", targetEntity = TravellingImage.class)
-    private List<TravellingImage> images;
 
     @PrePersist
     public void onPersist() {
