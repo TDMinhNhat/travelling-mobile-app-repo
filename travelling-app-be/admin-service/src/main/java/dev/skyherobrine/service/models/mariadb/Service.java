@@ -11,6 +11,8 @@ public class Service {
     private long id;
     @Column(name = "service_name", length = 150, nullable = false) @NonNull
     private String name;
+    @Column(name = "image_id", length = 200, nullable = false) @NonNull
+    private String imageId;
     @Column(name = "service_type", length = 100, nullable = false) @NonNull
     private String type;
 }

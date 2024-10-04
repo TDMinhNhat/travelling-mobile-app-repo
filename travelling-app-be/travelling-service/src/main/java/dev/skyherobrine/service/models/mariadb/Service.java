@@ -13,4 +13,6 @@ public class Service {
     private String name;
     @Column(name = "service_type", length = 100, nullable = false) @NonNull
     private String type;
+    @Column(name = "image_id", length = 200, nullable = false) @NonNull
+    private String imageId;
 }

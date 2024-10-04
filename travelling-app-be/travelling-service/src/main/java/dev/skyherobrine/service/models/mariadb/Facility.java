@@ -11,4 +11,6 @@ public class Facility {
     private long id;
     @Column(name = "faculty_name", length = 150, nullable = false) @NonNull
     private String name;
+    @Column(name = "image_id", length = 200, nullable = false) @NonNull
+    private String imageId;
 }
