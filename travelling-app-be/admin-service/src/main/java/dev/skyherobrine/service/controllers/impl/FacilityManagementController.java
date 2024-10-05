@@ -5,6 +5,7 @@ import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.models.mariadb.Facility;
 import dev.skyherobrine.service.repositories.mariadb.FacilityRepository;
 import dev.skyherobrine.service.services.ApiNotSupported;
+import dev.skyherobrine.service.services.impl.FacilityTravellingImageFileService;
 import dev.skyherobrine.service.utils.ObjectParser;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URL;
 
 @RestController
 @RequestMapping("admin/api/v1/facility")
@@ -23,6 +27,8 @@ public class FacilityManagementController implements IManagement<String, Long> {
     private KafkaTemplate<String,Object> template;
     @Autowired
     private FacilityRepository fr;
+    @Autowired
+    private FacilityTravellingImageFileService ftifs;
 
     @PostMapping("{name}")
     @Override
@@ -43,6 +49,32 @@ public class FacilityManagementController implements IManagement<String, Long> {
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_SERVER_ERROR,
                     "Something wrong when add the facility",
+                    e.getCause()
+            ));
+        }
+    }
+
+    @PostMapping("image")
+    public ResponseEntity<Response> addImage(@RequestParam("serviceId") String serviceId, @RequestParam("file") MultipartFile file) {
+        log.info("Calling for add service's image");
+        try {
+            String getFileNameId = ftifs.uploadFile(file);
+            URL imageURL = ftifs.getURIFile(getFileNameId);
+            Facility target = fr.findById(Long.parseLong(serviceId)).orElseThrow(() -> new NotFoundException("The service id = " + serviceId + " was not found!"));
+            log.info("Find the service");
+            target.setImageURL(imageURL.getPath());
+            fr.save(target);
+            log.info("Add service's image successfully");
+            return ResponseEntity.ok(new Response(
+                    org.springframework.http.HttpStatus.OK.value(),
+                    "Add facility's image successfully",
+                    true
+            ));
+        } catch (Exception e) {
+            log.error("Something wrong when add facility's image");
+            return ResponseEntity.ok(new Response(
+                    org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Something wrong when add facility's image",
                     e.getCause()
             ));
         }

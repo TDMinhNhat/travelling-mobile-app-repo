@@ -6,6 +6,7 @@ import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.models.mariadb.Service;
 import dev.skyherobrine.service.repositories.mariadb.ServiceRepository;
 import dev.skyherobrine.service.services.ApiNotSupported;
+import dev.skyherobrine.service.services.impl.ServiceTravellingImageFileService;
 import dev.skyherobrine.service.utils.ObjectParser;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URL;
 
 @RestController
 @RequestMapping("admin/api/v1/service")
@@ -21,9 +25,11 @@ import org.springframework.web.bind.annotation.*;
 public class ServiceManagementController implements IManagement<ServiceDTO, Long> {
 
     @Autowired
-    private KafkaTemplate<String,Object> template;
+    private KafkaTemplate<String, Object> template;
     @Autowired
     private ServiceRepository sr;
+    @Autowired
+    private ServiceTravellingImageFileService stifs;
 
     @PostMapping(produces = "application/json")
     @Override
@@ -43,6 +49,32 @@ public class ServiceManagementController implements IManagement<ServiceDTO, Long
             return ResponseEntity.ok(new Response(
                     HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Something wrong when add service",
+                    e.getCause()
+            ));
+        }
+    }
+
+    @PostMapping("image")
+    public ResponseEntity<Response> addImage(@RequestParam("serviceId") String serviceId, @RequestParam("file") MultipartFile file) {
+        log.info("Calling for add service's image");
+        try {
+            String getFileNameId = stifs.uploadFile(file);
+            URL imageURL = stifs.getURIFile(getFileNameId);
+            Service target = sr.findById(Long.parseLong(serviceId)).orElseThrow(() -> new NotFoundException("The service id = " + serviceId + " was not found!"));
+            log.info("Find the service");
+            target.setImageURL(imageURL.getPath());
+            sr.save(target);
+            log.info("Add service's image successfully");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Add service's image successfully",
+                    true
+            ));
+        } catch (Exception e) {
+            log.error("Something wrong when add service's image");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Something wrong when add service's image",
                     e.getCause()
             ));
         }
