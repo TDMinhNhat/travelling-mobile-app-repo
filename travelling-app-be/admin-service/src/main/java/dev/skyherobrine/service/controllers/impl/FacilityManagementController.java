@@ -64,6 +64,7 @@ public class FacilityManagementController implements IManagement<String, Long> {
             log.info("Find the service");
             target.setImageURL(imageURL.getPath());
             fr.save(target);
+            template.send("insert-facility-image", ObjectParser.objectToJson(target));
             log.info("Add service's image successfully");
             return ResponseEntity.ok(new Response(
                     org.springframework.http.HttpStatus.OK.value(),

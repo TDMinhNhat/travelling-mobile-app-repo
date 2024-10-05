@@ -28,4 +28,10 @@ public class FacilityConsumers {
             log.error("Received message from insert-service topic - Error: " + e.getMessage());
         }
     }
+
+    @KafkaListener(id = "facility-insert-facility_image", topics = "insert-facility-image")
+    public void insertFacilityImage(String data) {
+        Facility target = (Facility) ObjectParser.jsonToObject(data, Facility.class);
+        fr.save(target);
+    }
 }

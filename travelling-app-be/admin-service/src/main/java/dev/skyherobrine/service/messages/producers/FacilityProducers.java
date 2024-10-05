@@ -10,4 +10,9 @@ public class FacilityProducers {
     public NewTopic insertFacility() {
         return TopicBuilder.name("insert-facility").build();
     }
+
+    @Bean
+    public NewTopic insertFacilityImage() {
+        return TopicBuilder.name("insert-facility-image").build();
+    }
 }

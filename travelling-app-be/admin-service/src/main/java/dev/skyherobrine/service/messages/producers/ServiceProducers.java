@@ -10,4 +10,9 @@ public class ServiceProducers {
     public NewTopic insertService() {
         return TopicBuilder.name("insert-service").build();
     }
+
+    @Bean
+    public NewTopic insertServiceImage() {
+        return TopicBuilder.name("insert-service-image").build();
+    }
 }

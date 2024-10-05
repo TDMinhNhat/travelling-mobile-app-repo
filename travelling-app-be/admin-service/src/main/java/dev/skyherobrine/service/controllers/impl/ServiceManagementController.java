@@ -64,6 +64,7 @@ public class ServiceManagementController implements IManagement<ServiceDTO, Long
             log.info("Find the service");
             target.setImageURL(imageURL.getPath());
             sr.save(target);
+            template.send("insert-service-image", ObjectParser.objectToJson(target));
             log.info("Add service's image successfully");
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
