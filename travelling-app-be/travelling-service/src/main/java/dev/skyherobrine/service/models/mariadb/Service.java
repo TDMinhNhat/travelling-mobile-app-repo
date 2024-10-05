@@ -13,6 +13,6 @@ public class Service {
     private String name;
     @Column(name = "service_type", length = 100, nullable = false) @NonNull
     private String type;
-    @Column(name = "image_url", length = 200, nullable = false) @NonNull
+    @Column(name = "image_url", length = 200)
     private String imageURL;
 }
