@@ -56,14 +56,11 @@ public class TravellingManagementController implements IManagement<TravellingDTO
     private TravellingImageFileService tifs;
     @Autowired
     private TravellingImageRepository tir;
-    @Autowired
-    private TransactionManager transaction;
 
     @PostMapping
     @Override
     public ResponseEntity<Response> add(@RequestBody TravellingDTO travellingDTO) throws Exception {
         log.info("Call the method add travelling");
-        transaction.begin();
         try {
             Map<String,Object> travelling = new HashMap<>();
             Travelling target = tr.findById(travellingDTO.getTravelId()).orElse(null);
@@ -91,14 +88,12 @@ public class TravellingManagementController implements IManagement<TravellingDTO
 
             template.send("insert-travelling", travelling);
 
-            transaction.commit();
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_OK,
                     "Add travelling successfully",
                     true
             ));
         } catch (DuplicatePrimaryKeyValue e) {
-            transaction.rollback();
             log.warn("Duplicate primary key value travelling");
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_BAD_REQUEST,
@@ -106,7 +101,6 @@ public class TravellingManagementController implements IManagement<TravellingDTO
                     false
             ));
         } catch (Exception e) {
-            transaction.rollback();
             log.error("Something wrong when add travelling");
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_SERVER_ERROR,
