@@ -23,30 +23,24 @@ public class TravellingServices {
         this.fr = fr;
     }
 
-    public List<TravellingService> getAllTravellingService(Map<Long,Integer> services, Travelling travelling) {
+    public List<TravellingService> getAllTravellingService(List<String> services, Travelling travelling) {
         List<TravellingService> results = new ArrayList<>();
-        services.forEach((serviceId, quantity) -> {
+        services.forEach(serviceId -> {
             results.add(new TravellingService(
                     new TravellingService.TravellingServiceID(
-                            sr.findById(serviceId).orElseThrow(() -> new EntityNotFound("The service id = " + serviceId + " was not found!")),
+                            sr.findById(Long.parseLong(serviceId)).orElseThrow(() -> new EntityNotFound("The service id = " + serviceId + " was not found!")),
                             travelling
-                    ),
-                    quantity
+                    )
             ));
         });
         return results;
     }
 
-    public List<TravellingFacility> getAllTravellingFacility(Map<Long,Integer> facilities, Travelling travelId) {
+    public List<TravellingFacility> getAllTravellingFacility(List<String> facilities, Travelling travelling) {
         List<TravellingFacility> results = new ArrayList<>();
-        facilities.forEach((facilityId, quantity) -> {
-            results.add(new TravellingFacility(
-                    new TravellingFacility.TravellingFacilityID(
-                            fr.findById(facilityId).orElseThrow(() -> new EntityNotFound("The facility id = " + facilityId + " was not found!")),
-                            travelId
-                    ),
-                    quantity
-            ));
+        facilities.forEach(facilityId -> {
+            results.add(new TravellingFacility(new TravellingFacility.TravellingFacilityID(fr.findById(Long.parseLong(facilityId)).orElseThrow(() -> new EntityNotFound("The facility id = " + facilityId + " was not found")),
+                    travelling)));
         });
         return results;
     }

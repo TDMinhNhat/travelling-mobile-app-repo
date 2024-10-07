@@ -1,5 +1,7 @@
 package dev.skyherobrine.service.messages.consumers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.skyherobrine.service.models.mariadb.Travelling;
 import dev.skyherobrine.service.models.mariadb.TravellingFacility;
 import dev.skyherobrine.service.models.mariadb.TravellingService;
@@ -35,18 +37,20 @@ public class TravellingConsumers {
     }
 
     @KafkaListener(id = "travelling-insert-travelling", topics = "insert-travelling")
-    public void insertTravelling(String data) {
-        Map<String,Object> target = (Map<String, Object>) ObjectParser.jsonToObject(data, Map.class);
-        Travelling travelling = (Travelling) target.get("travelling");
-        TravellingDescribe travellingDescribe = (TravellingDescribe) target.get("travellingDescribe");
-        TravellingPolicy travellingPolicy = (TravellingPolicy) target.get("travellingPolicy");
-        List<TravellingService> travellingServices = (List<TravellingService>) target.get("travellingServices");
-        List<TravellingFacility> travellingPolicies = (List<TravellingFacility>) target.get("travellingFacilities");
+    public void insertTravelling(String data) throws Exception {
+        ObjectMapper mapper = ObjectParser.getObjectMapper();
+        Map<String,Object> target = mapper.readValue(data, new TypeReference<Map<String,Object>>() {});
+
+        Travelling travelling = mapper.convertValue((target.get("travelling")), Travelling.class);
+        TravellingDescribe travellingDescribe = mapper.convertValue((target.get("travellingDescribe")), TravellingDescribe.class);
+        TravellingPolicy travellingPolicy = mapper.convertValue((target.get("travellingPolicy")), TravellingPolicy.class);
+        List<TravellingService> travellingServices = mapper.convertValue((target.get("travellingServices")), new TypeReference<List<TravellingService>>() {});
+        List<TravellingFacility> travellingFacilities = mapper.convertValue((target.get("travellingFacilities")), new TypeReference<List<TravellingFacility>>() {});
 
         tr.save(travelling);
         tdr.save(travellingDescribe);
         tpr.save(travellingPolicy);
         tsr.saveAll(travellingServices);
-        tfr.saveAll(travellingPolicies);
+        tfr.saveAll(travellingFacilities);
     }
 }

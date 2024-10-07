@@ -1,5 +1,6 @@
 package dev.skyherobrine.service.models.mongodb;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ public class TravellingDescribe {
     private String travellingId;
     private String description;
     private List<String> specific;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 }

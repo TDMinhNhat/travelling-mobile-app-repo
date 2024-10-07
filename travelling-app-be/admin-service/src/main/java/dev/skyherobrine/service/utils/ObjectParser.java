@@ -2,10 +2,18 @@ package dev.skyherobrine.service.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class ObjectParser {
+
+    private static ObjectMapper mapper;
+
+    static {
+        mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+    }
+
     public static String objectToJson(Object object) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -14,7 +22,6 @@ public class ObjectParser {
     }
 
     public static Object jsonToObject(String json, Class<?> clazz) {
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, clazz);
         } catch (JsonProcessingException e) {

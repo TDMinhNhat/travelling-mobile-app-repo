@@ -86,7 +86,7 @@ public class TravellingManagementController implements IManagement<TravellingDTO
             travelling.put("travellingFacilities", travellingFacilities);
             log.info("Add travelling facilities successfully");
 
-            template.send("insert-travelling", travelling);
+            template.send("insert-travelling", ObjectParser.objectToJson(travelling));
 
             return ResponseEntity.ok(new Response(
                     HttpStatus.SC_OK,

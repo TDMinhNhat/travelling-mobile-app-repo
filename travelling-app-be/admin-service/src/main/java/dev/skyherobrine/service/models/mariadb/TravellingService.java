@@ -13,8 +13,6 @@ public class TravellingService {
 
     @EmbeddedId @NonNull
     private TravellingServiceID id;
-    @Column(nullable = false) @NonNull
-    private Integer quantity;
     @Column(name = "date_created", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
@@ -28,5 +26,15 @@ public class TravellingService {
         private Service service;
         @ManyToOne @JoinColumn(name = "travel_id", nullable = false) @NonNull
         private Travelling travelling;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        dateCreated = dateModified = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        dateModified = LocalDate.now();
     }
 }

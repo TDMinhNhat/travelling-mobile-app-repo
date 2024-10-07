@@ -1,5 +1,6 @@
 package dev.skyherobrine.service.models.mariadb;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,11 +13,11 @@ public class TravellingService {
 
     @EmbeddedId @NonNull
     private TravellingServiceID id;
-    @Column(nullable = false) @NonNull
-    private Integer quantity;
     @Column(name = "date_created", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
     @Column(name = "date_modified", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 
     @Embeddable @Getter @Setter @NoArgsConstructor @RequiredArgsConstructor
@@ -25,5 +26,15 @@ public class TravellingService {
         private Service service;
         @ManyToOne @JoinColumn(name = "travel_id", nullable = false) @NonNull
         private Travelling travelling;
+    }
+
+    @PrePersist
+    public void onPersist() {
+        dateCreated = dateModified = LocalDate.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        dateModified = LocalDate.now();
     }
 }

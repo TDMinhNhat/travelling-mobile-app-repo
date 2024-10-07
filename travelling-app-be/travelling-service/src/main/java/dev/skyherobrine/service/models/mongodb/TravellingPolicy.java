@@ -1,5 +1,7 @@
 package dev.skyherobrine.service.models.mongodb;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,10 +19,20 @@ public class TravellingPolicy {
     private String travellingId;
     private List<Policy> policies;
 
-    @Getter @Setter @AllArgsConstructor
+    @Getter @Setter
     public static class Policy {
         private String policyName;
         private List<String> policyDetails;
         private String description;
+
+        @JsonCreator
+        public Policy(
+                @JsonProperty("policyName") String policyName,
+                @JsonProperty("policyDetails") List<String> policyDetails,
+                @JsonProperty("description") String description) {
+            this.policyName = policyName;
+            this.policyDetails = policyDetails;
+            this.description = description;
+        }
     }
 }

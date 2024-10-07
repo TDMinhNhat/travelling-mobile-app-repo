@@ -1,5 +1,6 @@
 package dev.skyherobrine.service.models.mariadb;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.skyherobrine.service.enums.TravellingType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,8 +33,10 @@ public class Travelling {
     @Column(nullable = false)
     private boolean status;
     @Column(name = "date_created", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;
     @Column(name = "date_modified", nullable = false)
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = TravellingService.class)

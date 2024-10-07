@@ -31,9 +31,9 @@ public class ServiceManagementController implements IManagement<ServiceDTO, Long
     @Autowired
     private ServiceTravellingImageFileService stifs;
 
-    @PostMapping(produces = "application/json")
+    @PostMapping
     @Override
-    public ResponseEntity add(@RequestBody ServiceDTO serviceDTO) {
+    public ResponseEntity<Response> add(@RequestBody ServiceDTO serviceDTO) {
         try {
             log.info("Call the method add service");
             Service target = sr.save(serviceDTO.toObject());

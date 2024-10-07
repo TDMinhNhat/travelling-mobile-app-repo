@@ -13,8 +13,6 @@ public class TravellingFacility {
 
     @EmbeddedId @NonNull
     private TravellingFacilityID id;
-    @Column(nullable = false) @NonNull
-    private Integer quantity;
     @Column(name = "date_created", nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateCreated;

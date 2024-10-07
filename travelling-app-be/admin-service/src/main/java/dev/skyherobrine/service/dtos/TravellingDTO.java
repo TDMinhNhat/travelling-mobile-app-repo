@@ -9,7 +9,6 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @Getter
@@ -23,8 +22,8 @@ public class TravellingDTO {
     private Integer bathroom;
     private Double pricePerNight;
     private String address;
-    private Map<Long,Integer> services;
-    private Map<Long,Integer> facilities;
+    private List<String> services;
+    private List<String> facilities;
     private String description;
     private List<String> specific;
     private List<TravellingPolicy.Policy> policies;
