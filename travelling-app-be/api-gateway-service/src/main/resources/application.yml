@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: api-gateway-service
+  main:
+    web-application-type: reactive
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 8081
+  address: localhost
