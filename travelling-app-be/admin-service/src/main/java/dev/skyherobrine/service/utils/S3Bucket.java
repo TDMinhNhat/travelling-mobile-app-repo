@@ -54,7 +54,7 @@ public class S3Bucket {
         return s3.utilities().getUrl(request);
     }
 
-    public URL[] getMultiURLFile(String... keyFileNames) throws Exception {
+    public List<URL> getMultiURLFile(List<String> keyFileNames) throws Exception {
         List<URL> results = new ArrayList<>();
 
         for(String keyFileName : keyFileNames) {
@@ -62,6 +62,6 @@ public class S3Bucket {
             results.add(s3.utilities().getUrl(request));
         }
 
-        return (URL[]) results.toArray();
+        return results;
     }
 }

@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class ServiceTravellingImageFileService implements IFileService {
@@ -21,8 +22,8 @@ public class ServiceTravellingImageFileService implements IFileService {
     }
 
     @Override
-    public String uploadFile(MultipartFile file) throws Exception {
-        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_service_" + file.getOriginalFilename();
+    public String uploadFile(String id, MultipartFile file) throws Exception {
+        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_service_" + id;
         FileOutputStream fileOutput = new FileOutputStream(fileName);
         fileOutput.write(file.getBytes());
         fileOutput.flush();
@@ -34,17 +35,19 @@ public class ServiceTravellingImageFileService implements IFileService {
     }
 
     @Override
-    public String[] uploadFile(MultipartFile... files) throws Exception {
-        return new String[0];
-    }
-
-    @Override
-    public URL getURIFile(String keyFileName) throws Exception {
+    @Deprecated
+    public List<String> uploadFile(String id, MultipartFile... files) throws Exception {
         return null;
     }
 
     @Override
-    public URL[] getURIFile(String... keyFileNames) throws Exception {
-        return new URL[0];
+    public URL getURLFile(String keyFileName) throws Exception {
+        return null;
+    }
+
+    @Override
+    @Deprecated
+    public List<URL> getURLFile(List<String> keyFileNames) throws Exception {
+        return null;
     }
 }

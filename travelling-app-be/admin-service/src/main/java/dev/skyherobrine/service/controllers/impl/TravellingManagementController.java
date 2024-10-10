@@ -17,7 +17,6 @@ import dev.skyherobrine.service.repositories.mongodb.TravellingPolicyRepository;
 import dev.skyherobrine.service.services.TravellingServices;
 import dev.skyherobrine.service.services.impl.TravellingImageFileService;
 import dev.skyherobrine.service.utils.ObjectParser;
-import jakarta.transaction.TransactionManager;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.HttpStatus;
@@ -114,15 +113,15 @@ public class TravellingManagementController implements IManagement<TravellingDTO
     public ResponseEntity<Response> addImages(@RequestParam("travelId") String travelId, @RequestParam("images") MultipartFile[] images) {
         try {
             Travelling target = tr.findById(travelId).orElseThrow(() -> new EntityNotFound("The travel id = " + travelId + " was not found!"));
-            String[] listNameFiles = tifs.uploadFile(images);
-            URL[] listURLs = tifs.getURIFile(listNameFiles);
+            List<String> listNameFiles = tifs.uploadFile(target.getId(), images);
+            List<URL> listURLs = tifs.getURLFile(listNameFiles);
 
             List<TravellingImage> travellingImages = new ArrayList<>();
 
-            for(int i = 0; i < listNameFiles.length; ++i) {
+            for(int i = 0; i < listNameFiles.size(); ++i) {
                 travellingImages.add(new TravellingImage(
-                        listNameFiles[i],
-                        listURLs[i].getPath(),
+                        listNameFiles.get(i),
+                        listURLs.get(i).toExternalForm(),
                         target
                 ));
             }

@@ -21,8 +21,8 @@ public class TravellingImageFileService implements IFileService {
     private S3Bucket s3;
 
     @Override
-    public String uploadFile(MultipartFile file) throws Exception {
-        String nameFile = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_travelling_" + file.getOriginalFilename();
+    public String uploadFile(String id, MultipartFile file) throws Exception {
+        String nameFile = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh-mm-ss").format(LocalDateTime.now()) + "_travelling_" + id + ".png";
         FileOutputStream fileOutput = new FileOutputStream(nameFile);
         fileOutput.write(file.getBytes());
         fileOutput.flush();
@@ -35,10 +35,10 @@ public class TravellingImageFileService implements IFileService {
     }
 
     @Override
-    public String[] uploadFile(MultipartFile... files) throws Exception {
+    public List<String> uploadFile(String id, MultipartFile... files) throws Exception {
         List<String> listNameFiles = new ArrayList<>();
         for(MultipartFile file : files) {
-            String nameFile = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_travelling_" + file.getOriginalFilename();
+            String nameFile = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh-mm-ss").format(LocalDateTime.now()) + "_travelling_" + id + ".png";
             FileOutputStream fileOutput = new FileOutputStream(nameFile);
             fileOutput.write(file.getBytes());
             fileOutput.flush();
@@ -48,18 +48,19 @@ public class TravellingImageFileService implements IFileService {
             target.delete();
 
             listNameFiles.add(nameFile);
+            Thread.sleep(1500);
         }
 
-        return (String[]) listNameFiles.toArray();
+        return listNameFiles;
     }
 
     @Override
-    public URL getURIFile(String keyFileName) throws Exception {
+    public URL getURLFile(String keyFileName) throws Exception {
         return s3.getSingleURLFile(keyFileName);
     }
 
     @Override
-    public URL[] getURIFile(String... keyFileNames) throws Exception{
+    public List<URL> getURLFile(List<String> keyFileNames) throws Exception{
         return s3.getMultiURLFile(keyFileNames);
     }
 }

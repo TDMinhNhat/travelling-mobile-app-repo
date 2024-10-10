@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class FacilityTravellingImageFileService implements IFileService {
@@ -20,8 +21,8 @@ public class FacilityTravellingImageFileService implements IFileService {
     private S3Bucket s3;
 
     @Override
-    public String uploadFile(MultipartFile file) throws Exception {
-        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_facility_" + file.getOriginalFilename();
+    public String uploadFile(String id, MultipartFile file) throws Exception {
+        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_facility_" + id;
         FileOutputStream fileOutput = new FileOutputStream(fileName);
         fileOutput.write(file.getBytes());
         fileOutput.flush();
@@ -33,17 +34,19 @@ public class FacilityTravellingImageFileService implements IFileService {
     }
 
     @Override
-    public String[] uploadFile(MultipartFile... files) throws Exception {
-        return new String[0];
+    @Deprecated
+    public List<String> uploadFile(String id, MultipartFile... files) throws Exception {
+        return null;
     }
 
     @Override
-    public URL getURIFile(String keyFileName) throws Exception {
+    public URL getURLFile(String keyFileName) throws Exception {
         return s3.getSingleURLFile(keyFileName);
     }
 
     @Override
-    public URL[] getURIFile(String... keyFileNames) throws Exception {
-        return new URL[0];
+    @Deprecated
+    public List<URL> getURLFile(List<String> keyFileNames) throws Exception {
+        return null;
     }
 }
