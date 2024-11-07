@@ -3,9 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from '../style/SignUpSMSStyles'; // Import style từ file riêng
 
-const SignUpSMSScreen = ({ navigation }) => {
+const SignUpSMSScreen = ({ navigation, route }) => {
   const [otp, setOtp] = useState(['', '', '', '']);
   const inputs = useRef([]);
+  const { firstName, lastName, email, password, phone } = route.params
 
   const handleChange = (text, index) => {
     const otpArray = [...otp];
@@ -25,6 +26,10 @@ const SignUpSMSScreen = ({ navigation }) => {
       inputs.current[index - 1].focus();
     }
   };
+
+  function solveConfirmCode() {
+
+  }
 
   return (
     <KeyboardAvoidingView
@@ -62,7 +67,7 @@ const SignUpSMSScreen = ({ navigation }) => {
       </View>
 
       {/* Confirm Code Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => solveConfirmCode()}>
         <Text style={styles.buttonText}>Confirm Code</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>

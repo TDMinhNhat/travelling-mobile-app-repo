@@ -17,7 +17,6 @@ public class AccountRegisterDTO {
     private Boolean sex;
     private LocalDate birthDate;
     private String phone;
-    private String address;
     private String email;
     private String username;
     private String password;

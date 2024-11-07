@@ -31,6 +31,9 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
   client:
     register-with-eureka: true
     fetch-registry: true

@@ -32,6 +32,9 @@ spring:
 server:
   port: 10000
 eureka:
-    client:
-      fetch-registry: true
-      register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true

@@ -9,9 +9,10 @@ import styles from '../style/styleCreateAccountScreen';
 // Tắt cảnh báo defaultProps
 LogBox.ignoreLogs(['Support for defaultProps']);
 
-const CreateAccountScreen = () => {
+const CreateAccountScreen = ({ navigation }) => {
   const [countryCode, setCountryCode] = useState<CountryCode>('VN');
   const [callingCode, setCallingCode] = useState('84');
+  const [phoneInput, setPhoneInput] = useState('');
 
   const onSelect = (country: Country) => {
     if (country && country.cca2 && country.callingCode) {
@@ -21,6 +22,16 @@ const CreateAccountScreen = () => {
       console.error('Invalid country data:', country);
     }
   };
+
+  function solveLogin() {
+    navigation.navigate('Login');
+  }
+
+  function solveContinueSignUp() {
+    navigation.navigate("SignUp", {
+      phone: phoneInput
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -47,10 +58,11 @@ const CreateAccountScreen = () => {
           placeholder={`+${callingCode} Mobile number`}
           keyboardType="phone-pad"
           placeholderTextColor="#B0B0B0"
+          onChangeText={(text) => setPhoneInput(text)}
         />
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => solveContinueSignUp()}>
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
 
@@ -75,7 +87,7 @@ const CreateAccountScreen = () => {
         By signing up, you agree to our <Text style={styles.link}>Terms of Service</Text> and <Text style={styles.link}>Privacy Policy</Text>.
       </Text>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => solveLogin()}>
         <Text style={styles.Already}>Already had an account?<Text style={styles.loginLink}> Log in</Text></Text>
       </TouchableOpacity>
     </View>

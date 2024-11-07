@@ -1,11 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
-    //marginTop:50,
+    marginTop: StatusBar.currentHeight,
   },
   header: {
     flexDirection: 'row',
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop:50,
+    marginTop:30,
     marginBottom: 16,
   },
   buttonText: {

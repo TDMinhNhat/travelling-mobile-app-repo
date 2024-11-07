@@ -21,11 +21,11 @@ public class LoginController {
     @Autowired
     public UserRepository ur;
 
-    @PostMapping("{username}/{password}")
-    public ResponseEntity<Response> login(@PathVariable("username") String username, @PathVariable("password") String password) {
+    @PostMapping("{email}/{password}")
+    public ResponseEntity<Response> login(@PathVariable("email") String email, @PathVariable("password") String password) {
         try {
             log.info("Calling the method login account");
-            User target = ur.findByUsernameAndPassword(username, password).orElseThrow(() -> new EntityNotFoundException("Username or password isn't correctly"));
+            User target = ur.findByEmailAndPassword(email, password).orElseThrow(() -> new EntityNotFoundException("Email or password isn't correctly"));
             log.info("Login successfully");
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
