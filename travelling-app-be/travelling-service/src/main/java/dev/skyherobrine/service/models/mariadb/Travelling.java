@@ -39,13 +39,6 @@ public class Travelling {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate dateModified;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = TravellingService.class)
-    private List<TravellingService> services;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = TravellingFacility.class)
-    private List<TravellingFacility> facilities;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = TravellingImage.class)
-    private List<TravellingImage> images;
-
     @PrePersist
     public void onPersist() {
         dateCreated = dateModified = LocalDate.now();

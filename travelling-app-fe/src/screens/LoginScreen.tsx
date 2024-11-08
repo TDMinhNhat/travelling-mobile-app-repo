@@ -16,7 +16,7 @@ export default function ({ navigation }) {
     function solveLogin() {
         const result = authenticateModel.login(email, password)    
         if(result != null) {
-            navigation.navigate("TravellingDetail");
+            navigation.navigate("Dashboard");
         } else {
             console.log("Login failed")
         }

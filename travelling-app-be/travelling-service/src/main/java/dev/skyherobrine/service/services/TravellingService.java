@@ -22,16 +22,18 @@ public class TravellingService {
     private TravellingDescribeRepository tdr;
     private TravellingPolicyRepository tpr;
     private TravellingReviewRepository trr;
+    private TravellingImageRepository tir;
     private ServiceRepository sr;
     private FacilityRepository fr;
 
-    public TravellingService(TravellingRepository tr, TravellingServiceRepository tsr, TravellingFacilityRepository tfr, TravellingDescribeRepository tdr, TravellingPolicyRepository tpr, TravellingReviewRepository trr, ServiceRepository sr, FacilityRepository fr) {
+    public TravellingService(TravellingRepository tr, TravellingServiceRepository tsr, TravellingFacilityRepository tfr, TravellingDescribeRepository tdr, TravellingPolicyRepository tpr, TravellingReviewRepository trr, TravellingImageRepository tir, ServiceRepository sr, FacilityRepository fr) {
         this.tr = tr;
         this.tsr = tsr;
         this.tfr = tfr;
         this.tdr = tdr;
         this.tpr = tpr;
         this.trr = trr;
+        this.tir = tir;
         this.sr = sr;
         this.fr = fr;
     }
@@ -42,9 +44,9 @@ public class TravellingService {
         tr.findAll().forEach(target -> {
             Map<String,Object> data = new HashMap<>();
             data.put("travelling", target);
-            data.put("service", target.getServices().stream().map(service -> service.getId().getService()));
-            data.put("facility", target.getFacilities().stream().map(facility -> facility.getId().getFacility()));
-            data.put("image", target.getImages().stream().map(TravellingImage::getImageUrl));
+            data.put("service", tsr.findById_Travelling(target).stream().map(item -> item.getId().getService()));
+            data.put("facility", tfr.findById_Travelling(target).stream().map(item -> item.getId().getFacility()));
+            data.put("image", tir.findByTravelling(target).stream().map(item -> item.getImageUrl()));
             data.put("describe", tdr.findById(target.getId()).orElse(null));
             data.put("policy", tpr.findById(target.getId()).orElse(null));
             data.put("review", trr.findByTravellingId(target.getId()));
@@ -62,9 +64,9 @@ public class TravellingService {
         if(target == null) return null;
 
         data.put("travelling", target);
-        data.put("service", target.getServices().stream().map(service -> service.getId().getService()));
-        data.put("facility", target.getFacilities().stream().map(facility -> facility.getId().getFacility()));
-        data.put("image", target.getImages().stream().map(TravellingImage::getImageUrl));
+        data.put("service", tsr.findById_Travelling(target).stream().map(item -> item.getId().getService()));
+        data.put("facility", tfr.findById_Travelling(target).stream().map(item -> item.getId().getFacility()));
+        data.put("image", tir.findByTravelling(target).stream().map(item -> item.getImageUrl()));
         data.put("describe", tdr.findById(target.getId()).orElse(null));
         data.put("policy", tpr.findById(target.getId()).orElse(null));
         data.put("review", trr.findByTravellingId(target.getId()));

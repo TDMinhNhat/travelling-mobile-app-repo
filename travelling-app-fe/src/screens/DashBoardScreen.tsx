@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardStyle from "../style/DashboardStyle";
 import { SafeAreaView, View, Pressable, Text, TextInput, FlatList, ImageBackground } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
@@ -8,8 +8,20 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import travellingModel from "../models/travelling";
 
 export default function () {
+
+    const [listTravel, setListTravel] = useState([])
+    useEffect(() => {
+        async function fetchData() {
+            await travellingModel.getAll().then((response) => {
+                setListTravel(response.data.data)
+            })
+        }
+
+        fetchData()
+    }, [])
 
     const dataFetch = [
         {
@@ -76,7 +88,7 @@ export default function () {
             type: "Camping"
         },
     ]
-    const [travelType, setTravelType] = useState("Beach")
+    const [travelType, setTravelType] = useState("BEACH")
     const [tab, setTab] = useState("Search")
 
     return (<SafeAreaView style={DashboardStyle.container}>
@@ -88,45 +100,44 @@ export default function () {
                 </View>
             </View>
             <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly", width: "90%", marginTop: 10 }}>
-                <Pressable style={[DashboardStyle.tab, travelType == "Beach" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("Beach")}>
-                    <FontAwesome5 name="umbrella-beach" size={24} color="black" style={[travelType == "Beach" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                    <Text style={travelType == "Beach" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Beach</Text>
+                <Pressable style={[DashboardStyle.tab, travelType == "BEACH" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("BEACH")}>
+                    <FontAwesome5 name="umbrella-beach" size={24} color="black" style={[travelType == "BEACH" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
+                    <Text style={travelType == "BEACH" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Beach</Text>
                 </Pressable>
-                <Pressable style={[DashboardStyle.tab, travelType == "Mountain" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("Mountain")}>
-                    <FontAwesome6 name="mountain-sun" size={24} color="black" style={[travelType == "Mountain" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                    <Text style={travelType == "Mountain" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Mountain</Text>
+                <Pressable style={[DashboardStyle.tab, travelType == "MOUNTAIN" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("MOUNTAIN")}>
+                    <FontAwesome6 name="mountain-sun" size={24} color="black" style={[travelType == "MOUNTAIN" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
+                    <Text style={travelType == "MOUNTAIN" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Mountain</Text>
                 </Pressable>
-                <Pressable style={[DashboardStyle.tab, travelType == "Camping" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("Camping")}>
-                    <FontAwesome6 name="campground" size={24} color="black" style={[travelType == "Camping" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                    <Text style={travelType == "Camping" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Camping</Text>
+                <Pressable style={[DashboardStyle.tab, travelType == "CAMPING" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("CAMPING")}>
+                    <FontAwesome6 name="campground" size={24} color="black" style={[travelType == "CAMPING" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
+                    <Text style={travelType == "CAMPING" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Camping</Text>
                 </Pressable>
             </View>
         </View>
         <FlatList
             showsVerticalScrollIndicator={false} style={{ width: "90%" }}
-            data={dataFetch.filter((item) => item.type == travelType)}
+            data={listTravel.filter((item) => item.travelling.type === travelType)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={(target) => {
                 return (
                     <View style={{ marginTop: 20 }}>
-                        <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image }} style={{ width: "100%", height: 300, position: "relative" }}>
+                        <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] == "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
                             <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
                                 <Feather name="heart" size={24} color="#EAEEF0" />
                             </View>
                         </ImageBackground>
                         <View style={{ marginTop: 20 }}>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                                <Text style={{ fontWeight: 700, color: "#232428" }}>{target.item.title}</Text>
-                                <Text style={{ color: "#B3B4B8" }}><FontAwesome name="star" size={15} color="#E7C64C" />{target.item.averageStar}</Text>
+                                <Text style={{ fontWeight: 700, color: "#232428" }}>{target.item.travelling.name}</Text>
+                                <Text style={{ color: "#B3B4B8" }}><FontAwesome name="star" size={15} color="#E7C64C" />{0}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                                <Text style={{ color: "#A5A6AA" }}>{target.item.type}</Text>
-                                <Text style={{ color: "#5B5D5C" }}><Text style={{ color: "#2E2F31", fontWeight: 700 }}>${target.item.price}</Text>/night</Text>
+                                <Text style={{ color: "#A5A6AA" }}>{target.item.travelling.type}</Text>
+                                <Text style={{ color: "#5B5D5C" }}><Text style={{ color: "#2E2F31", fontWeight: 700 }}>${target.item.travelling.pricePerNight}</Text>/night</Text>
                             </View>
                         </View>
-                    </View>
-                )
-            }}
+                    </View>)
+        }}
         >
         </FlatList>
         <View style={DashboardStyle.footer}>

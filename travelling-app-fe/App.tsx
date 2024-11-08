@@ -84,7 +84,7 @@ function App() {
           <Stack.Screen
             name="Dashboard"
             component={DashBoardScreen}
-            options={{ title: "Dashboard" }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="Login"
