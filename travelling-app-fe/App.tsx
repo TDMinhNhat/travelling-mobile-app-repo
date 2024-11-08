@@ -94,7 +94,7 @@ function App() {
           <Stack.Screen
             name="TravellingDetail"
             component={TravellingDetailScreen}
-            options={{ title: "Travelling Details" }}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -10,7 +10,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import travellingModel from "../models/travelling";
 
-export default function () {
+export default function ({ navigation }) {
 
     const [listTravel, setListTravel] = useState([])
     useEffect(() => {
@@ -23,73 +23,20 @@ export default function () {
         fetchData()
     }, [])
 
-    const dataFetch = [
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Beach"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Beach"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Beach"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Mountain"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Mountain"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Mountain"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Camping"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Camping"
-        },
-        {
-            image: "https://picsum.photos/seed/picsum/536/354",
-            title: "Apartment in Omaha",
-            price: 30,
-            averageStar: 5.0,
-            type: "Camping"
-        },
-    ]
     const [travelType, setTravelType] = useState("BEACH")
     const [tab, setTab] = useState("Search")
+
+    const solveClickDetail = (item) => {
+        navigation.navigate("TravellingDetail", {
+            travelling: item.travelling,
+            image: item.image,
+            service: item.service,
+            review: item.review,
+            describe: item.describe,
+            facility: item.facility,
+            policy: item.policy
+        })
+    }
 
     return (<SafeAreaView style={DashboardStyle.container}>
         <View style={{ width: "100%", backgroundColor: "#ebfdff", display: "flex", alignItems: "center", borderBottomColor: "#f3f3f3", borderBottomWidth: 2 }}>
@@ -120,7 +67,7 @@ export default function () {
             keyExtractor={(item, index) => index.toString()}
             renderItem={(target) => {
                 return (
-                    <View style={{ marginTop: 20 }}>
+                    <Pressable style={{ marginTop: 20 }} onPress={() => solveClickDetail(target.item)}>
                         <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] == "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
                             <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
                                 <Feather name="heart" size={24} color="#EAEEF0" />
@@ -136,7 +83,7 @@ export default function () {
                                 <Text style={{ color: "#5B5D5C" }}><Text style={{ color: "#2E2F31", fontWeight: 700 }}>${target.item.travelling.pricePerNight}</Text>/night</Text>
                             </View>
                         </View>
-                    </View>)
+                    </Pressable>)
         }}
         >
         </FlatList>
