@@ -16,8 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor @AllArgsConstructor
 public class TravellingReview {
     @Id
-    private ObjectId id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "dd-MM-yyyy:HH:mm:ss")
     private LocalDateTime dateCreated;
     private String travellingId;
     private String userId;

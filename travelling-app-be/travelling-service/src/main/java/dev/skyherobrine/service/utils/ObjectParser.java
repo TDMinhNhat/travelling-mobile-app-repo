@@ -13,7 +13,7 @@ public class ObjectParser {
         mapper.registerModule(new JavaTimeModule());
     }
 
-    public static String objectToString(Object object) {
+    public static String objectToJson(Object object) {
         try {
             return mapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
@@ -27,9 +27,5 @@ public class ObjectParser {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static ObjectMapper getObjectMapper() {
-        return mapper;
     }
 }

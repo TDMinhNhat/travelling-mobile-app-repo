@@ -23,7 +23,6 @@ public class AccountRegisterDTO {
 
     public User toUserObject() {
         return new User(
-                "",
                 fullName,
                 sex,
                 birthDate,

@@ -15,7 +15,7 @@ import java.util.List;
 public class TravellingImageConsumers {
 
     private TravellingImageRepository tir;
-    private ObjectMapper objectMapper = ObjectParser.getObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     public TravellingImageConsumers(TravellingImageRepository tir) {
         this.tir = tir;

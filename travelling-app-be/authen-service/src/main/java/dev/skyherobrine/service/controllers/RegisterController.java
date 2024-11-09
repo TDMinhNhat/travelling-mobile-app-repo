@@ -33,10 +33,7 @@ public class RegisterController {
     public ResponseEntity<Response> registerAccount(@RequestBody AccountRegisterDTO account) {
         log.info("Calling register account");
         try {
-            Thread.sleep(1000);
-            String userId = DateTimeFormatter.ofPattern("ddMMyyyyhhmmss").format(LocalDateTime.now()) + ThreadLocalRandom.current().nextInt(111,999) + account.getEmail().split("@")[0];
             User user = account.toUserObject();
-            user.setUserId(userId);
             ur.save(user);
             template.send("insert-user", ObjectParser.objectToJson(user));
             log.info("Add user successfully");

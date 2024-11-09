@@ -38,7 +38,7 @@ public class TravellingConsumers {
 
     @KafkaListener(id = "travelling-insert-travelling", topics = "insert-travelling")
     public void insertTravelling(String data) throws Exception {
-        ObjectMapper mapper = ObjectParser.getObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         Map<String,Object> target = mapper.readValue(data, new TypeReference<Map<String,Object>>() {});
 
         Travelling travelling = mapper.convertValue((target.get("travelling")), Travelling.class);

@@ -12,8 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor @RequiredArgsConstructor
 @Getter @Setter
 public class User {
-    @Id @Column(name = "user_id", nullable = false, length = 100) @NonNull
-    private String userId;
+    @Id @Column(name = "user_id", nullable = false, length = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
+    private Long userId;
     @Column(name = "full_name", length = 200, nullable = false) @NonNull
     private String fullName;
     @Column(nullable = false) @NonNull

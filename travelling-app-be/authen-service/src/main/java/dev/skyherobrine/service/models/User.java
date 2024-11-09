@@ -11,8 +11,10 @@ import java.time.LocalDate;
 @NoArgsConstructor @RequiredArgsConstructor
 @Getter @Setter
 public class User {
-    @Id @Column(name = "user_id", nullable = false, length = 100) @NonNull
-    private String userId;
+    @Id @Column(name = "user_id", nullable = false, length = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull
+    private Long userId;
     @Column(name = "full_name", length = 200, nullable = false) @NonNull
     private String fullName;
     @Column(nullable = false) @NonNull
@@ -50,5 +52,17 @@ public class User {
     @PreUpdate
     public void onUpdate() {
         dateModified = LocalDate.now();
+    }
+
+    public User(@NonNull String fullName, @NonNull Boolean sex, @NonNull LocalDate birthDate, @NonNull String username, @NonNull String password, @NonNull String email, @NonNull String phone, @NonNull LoginProvider provider, @NonNull UserRole role) {
+        this.fullName = fullName;
+        this.sex = sex;
+        this.birthDate = birthDate;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.provider = provider;
+        this.role = role;
     }
 }
