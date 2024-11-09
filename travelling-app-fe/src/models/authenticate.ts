@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const URL = "http://192.168.100.9:8080/authenticate/api/v1"
+const HOST = process.env.IP_HOST
+const URL: string = `http://${HOST}:8080/authenticate/api/v1`
 
 const authenticateModel = {
     login: async (email: string, password: string) => {

@@ -39,7 +39,7 @@ function App() {
           <Stack.Screen
             name="FacilitiesAndServicesScreen"
             component={FacilitiesAndServicesScreen}
-            options={{ title: "Facilities & Services" }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="DescriptionScreen"

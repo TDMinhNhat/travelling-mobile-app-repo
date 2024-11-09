@@ -19,6 +19,14 @@ export default function ({ navigation, route}) {
 
     }
 
+    const solveShowDetailFacilityAndService = () => {
+        navigation.navigate("FacilitiesAndServicesScreen", {
+            facility: facility,
+            service: service,
+            travelling: travelling
+        })
+    }
+
     return <SafeAreaView style={TravellingDetailStyle.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -97,7 +105,7 @@ export default function ({ navigation, route}) {
                             })}
                         </View>
                         <View style={{ width: "100%", marginBottom: 25, borderWidth: 1, borderRadius: 5, borderColor: "#939498" }}>
-                            <Pressable style={{ padding: 3 }}>
+                            <Pressable style={{ padding: 3 }} onPress={() => solveShowDetailFacilityAndService()}>
                                 <Text style={{ width: "100%", textAlign: "center", color: "#a4a5a8" }}>Show All</Text>
                             </Pressable>
                         </View>
