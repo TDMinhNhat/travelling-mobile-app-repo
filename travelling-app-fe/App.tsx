@@ -44,7 +44,7 @@ function App() {
           <Stack.Screen
             name="DescriptionScreen"
             component={DescriptionScreen}
-            options={{ title: "DescriptionScreen" }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="GuestScreen"

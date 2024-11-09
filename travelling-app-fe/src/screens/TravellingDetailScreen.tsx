@@ -1,6 +1,6 @@
 import React from "react";
 import TravellingDetailStyle from "../style/TravellingDetailStyle";
-import { FlatList, Image, ImageBackground, Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { FlatList, Image, ImageBackground, Pressable, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -25,6 +25,14 @@ export default function ({ navigation, route}) {
             service: service,
             travelling: travelling
         })
+    }
+
+    const solveViewDescription = () => {
+        navigation.navigate("DescriptionScreen", {
+            travelling: travelling,
+            description: describe,
+            image: image
+        });
     }
 
     return <SafeAreaView style={TravellingDetailStyle.container}>
@@ -197,19 +205,19 @@ export default function ({ navigation, route}) {
                             <Text style={{ textAlign: "justify", color: "#a1a2a6" }} numberOfLines={3}>{describe.description}</Text>
                         </View>
                         <View style={{ borderWidth: 2, borderColor: "#a1a2a6", borderRadius: 5, marginTop: 15, marginBottom: 20 }}>
-                            <Pressable style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5 }}>
+                            <TouchableOpacity style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5 }} onPress={() => solveViewDescription()}>
                                 <Text style={{ color: "#a1a2a6" }}>View more</Text>
                                 <AntDesign name="right" size={15} color="#a1a2a6" style={{ marginLeft: 10 }} />
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
                 { /* Footer for Booking */}
                 <View style={TravellingDetailStyle.footer}>
                     <Text style={{ color: "#abadb1" }}>From: <Text style={{ fontWeight: "bold", color: "black" }}>${travelling.pricePerNight}</Text>/night</Text>
-                    <Pressable style={{ backgroundColor: "#00bdd5", borderRadius: 10 }}>
+                    <TouchableOpacity style={{ backgroundColor: "#00bdd5", borderRadius: 10 }}>
                         <Text style={{ color: "white", fontWeight: "bold", paddingLeft: 30, paddingRight: 30, paddingTop: 10, paddingBottom: 10 }}>Book now</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             </View>
         </ScrollView>
