@@ -175,17 +175,8 @@ export default function ({ navigation, route}) {
                                                 return <Text key={index.toString()} style={{ color: "#a1a2a6" }}>{item}</Text>
                                             })}
                                         </View>
-                                        <View style={{ marginTop: 10 }}>
-                                            <Text style={{ fontWeight: 600 }}>{item.policyName}</Text>
-                                        </View>
                                         <View style={{ marginTop: 10, marginLeft: 30 }}>
                                             <Text style={{ color: "#a1a2a6", textAlign: "justify" }} numberOfLines={2}>{item.description}</Text>
-                                        </View>
-                                        <View style={{ borderWidth: 2, borderColor: "#a1a2a6", borderRadius: 5, marginTop: 15, marginBottom: 20 }}>
-                                            <Pressable style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", padding: 5 }}>
-                                                <Text style={{ color: "#a1a2a6" }}>View more</Text>
-                                                <AntDesign name="right" size={15} color="#a1a2a6" style={{ marginLeft: 10 }} />
-                                            </Pressable>
                                         </View>
                                     </View>
                                 )
