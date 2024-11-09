@@ -7,17 +7,17 @@ import dev.skyherobrine.service.repositories.mongodb.TravellingReviewRepository;
 import dev.skyherobrine.service.utils.ObjectParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("travelling/api/v1/review")
 @Slf4j
-public class TravellingCommentController {
+public class TravellingReviewController {
 
     @Autowired
     private TravellingReviewRepository trr;
@@ -43,6 +43,27 @@ public class TravellingCommentController {
             return ResponseEntity.ok(new Response(
                     500,
                     "Something wrong when add review",
+                    e.getCause()
+            ));
+        }
+    }
+
+    @GetMapping("/{travellingId}")
+    public ResponseEntity<Response> getAllReviewsByTravellingId(@PathVariable("travellingId") String travellingId) {
+        log.info("Calling get all reviews by travelling id");
+        try {
+            List<TravellingReview> trs = trr.findByTravellingId(travellingId);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Get all reviews by travelling id successfully",
+                    trs
+            ));
+        } catch (Exception e) {
+            log.error("Something wrong when get all reviews by travelling id");
+            log.error("Error: {}", String.valueOf(e));
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Something wrong when get all reviews by travelling id",
                     e.getCause()
             ));
         }
