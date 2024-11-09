@@ -31,7 +31,6 @@ public class TravellingCommentController {
             TravellingReview tr = dto.toObject();
             TravellingReview output = trr.save(tr);
             log.info("Add review successfully");
-
             template.send("travelling-review", ObjectParser.objectToJson(tr));
             log.info("Send review to Kafka successfully");
             return ResponseEntity.ok(new Response(
