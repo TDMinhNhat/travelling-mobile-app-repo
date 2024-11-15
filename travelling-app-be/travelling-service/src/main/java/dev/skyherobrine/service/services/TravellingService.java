@@ -1,11 +1,14 @@
 package dev.skyherobrine.service.services;
 
+import dev.skyherobrine.service.feigns.UserClient;
 import dev.skyherobrine.service.models.mariadb.Travelling;
 import dev.skyherobrine.service.models.mariadb.TravellingImage;
+import dev.skyherobrine.service.models.mongodb.TravellingReview;
 import dev.skyherobrine.service.repositories.mariadb.*;
 import dev.skyherobrine.service.repositories.mongodb.TravellingDescribeRepository;
 import dev.skyherobrine.service.repositories.mongodb.TravellingPolicyRepository;
 import dev.skyherobrine.service.repositories.mongodb.TravellingReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +28,8 @@ public class TravellingService {
     private TravellingImageRepository tir;
     private ServiceRepository sr;
     private FacilityRepository fr;
+    @Autowired
+    private UserClient uc;
 
     public TravellingService(TravellingRepository tr, TravellingServiceRepository tsr, TravellingFacilityRepository tfr, TravellingDescribeRepository tdr, TravellingPolicyRepository tpr, TravellingReviewRepository trr, TravellingImageRepository tir, ServiceRepository sr, FacilityRepository fr) {
         this.tr = tr;
@@ -40,6 +45,7 @@ public class TravellingService {
 
     public List<Map<String,Object>> getFullInfoAllTravel() {
         List<Map<String,Object>> result = new ArrayList<>();
+        List<TravellingReview> trs = trr.findAll();
 
         tr.findAll().forEach(target -> {
             Map<String,Object> data = new HashMap<>();
@@ -49,8 +55,7 @@ public class TravellingService {
             data.put("image", tir.findByTravelling(target).stream().map(item -> item.getImageUrl()));
             data.put("describe", tdr.findById(target.getId()).orElse(null));
             data.put("policy", tpr.findById(target.getId()).orElse(null));
-            data.put("review", trr.findByTravellingId(target.getId()));
-
+            data.put("review", getUserInfoReview(trr.findByTravellingId(target.getId())));
             result.add(data);
         });
 
@@ -69,7 +74,20 @@ public class TravellingService {
         data.put("image", tir.findByTravelling(target).stream().map(item -> item.getImageUrl()));
         data.put("describe", tdr.findById(target.getId()).orElse(null));
         data.put("policy", tpr.findById(target.getId()).orElse(null));
-        data.put("review", trr.findByTravellingId(target.getId()));
+        data.put("review", getUserInfoReview(trr.findByTravellingId(target.getId())));
+
+        return data;
+    }
+
+    private List<? extends Map> getUserInfoReview(List<TravellingReview> trs) {
+        List<Map<String,Object>> data = new ArrayList<>();
+
+        trs.forEach(target -> {
+            Map<String,Object> item = new HashMap<>();
+            item.put("review", target);
+            item.put("user", uc.getUserById(Long.parseLong(target.getUserId())).getBody().getData());
+            data.add(item);
+        });
 
         return data;
     }
