@@ -14,7 +14,8 @@ const DescriptionScreen = ({ navigation, route }) => {
   const {
     description,
     travelling,
-  }: { description: string; travelling: object } = route.params;
+    image
+  }: { description: string; travelling: object; image: any } = route.params;
 
   const solveBack = () => {
     navigation.goBack();
@@ -32,7 +33,7 @@ const DescriptionScreen = ({ navigation, route }) => {
 
       {/* Image Section */}
       <Image
-        source={{ uri: "https://picsum.photos/200" }}
+        source={{ uri: image[0] }}
         style={styles.image}
       />
 

@@ -33,7 +33,7 @@ function App() {
           <Stack.Screen
             name="ReviewsScreen"
             component={ReviewsScreen}
-            options={{ title: "Reviews" }}
+            options={{ headerShown: false }}
           />
 
           <Stack.Screen

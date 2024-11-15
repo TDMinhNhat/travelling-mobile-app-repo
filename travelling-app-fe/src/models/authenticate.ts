@@ -9,6 +9,7 @@ const authenticateModel = {
             method: "post",
             url: `${URL}/login/${email}/${password}`,
         }).then(response => {
+            console.log(response.data)
             return response.data;
         }).catch(err => {
             console.log(err)

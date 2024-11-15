@@ -13,11 +13,12 @@ export default function ({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function solveLogin() {
-        const result = authenticateModel.login(email, password)    
-        if(result != null) {
+    async function solveLogin() {
+        const result = await authenticateModel.login(email, password)    
+        if(result.code == 200) {
             navigation.navigate("Dashboard");
         } else {
+            alert("Something when logged in into your account. Please contact to administrator to help")
             console.log("Login failed")
         }
     }

@@ -17,6 +17,9 @@ export default function ({ navigation }) {
         async function fetchData() {
             await travellingModel.getAll().then((response) => {
                 setListTravel(response.data.data)
+            }).catch(err => {
+                console.log(err)
+                alert("Error: " + err);
             })
         }
 
@@ -75,8 +78,11 @@ export default function ({ navigation }) {
                         </ImageBackground>
                         <View style={{ marginTop: 20 }}>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                                <Text style={{ fontWeight: 700, color: "#232428" }}>{target.item.travelling.name}</Text>
-                                <Text style={{ color: "#B3B4B8" }}><FontAwesome name="star" size={15} color="#E7C64C" />{0}</Text>
+                                <Text style={{ fontWeight: 700, color: "#232428", width: "85%" }}>{target.item.travelling.name}</Text>
+                                <Text style={{ color: "#B3B4B8" }}><FontAwesome name="star" size={15} color="#E7C64C" />  {(function() {
+                                    const result = target.item.review.map((item) => item.review.star).reduce((a, b) => a + b, 0) / target.item.review.length
+                                    return Math.round(result * 10) / 10;
+                                })()}</Text>
                             </View>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
                                 <Text style={{ color: "#A5A6AA" }}>{target.item.travelling.type}</Text>

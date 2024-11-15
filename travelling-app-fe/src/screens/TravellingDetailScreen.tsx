@@ -7,8 +7,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 
+const USER_IMAGE_DEFAULT: string = process.env.USER_IMAGE_DEFAULt;
+
 export default function ({ navigation, route}) {
 
+    const { userReview, setUserReview } = React.useState([])
     const { travelling, image, service, facility, review, describe, policy } = route.params
 
     const solveBack = () => {
@@ -33,6 +36,12 @@ export default function ({ navigation, route}) {
             description: describe,
             image: image
         });
+    }
+
+    const solveViewAllReviews = () => {
+        navigation.navigate("ReviewsScreen", {
+            review: review
+        })
     }
 
     return <SafeAreaView style={TravellingDetailStyle.container}>
@@ -76,10 +85,13 @@ export default function ({ navigation, route}) {
                             </View>
                         </View>
                         <View style={{ backgroundColor: "#fafafa", marginTop: 15, marginBottom: 15 }}>
-                            <Pressable style={{ padding: 10, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                            <Pressable style={{ padding: 10, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }} onPress={() => solveViewAllReviews()}>
                                 <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                                     <FontAwesome name="star" size={15} color="#ecc133" />
-                                    <Text style={{ marginLeft: 5 }}>{0}/5</Text>
+                                    <Text style={{ marginLeft: 5 }}>{(function() {
+                                const result = review.map((item) => item.review.star).reduce((a, b) => a + b, 0) / review.length
+                                return Math.round(result * 10) / 10;
+                            })()}/5</Text>
                                 </View>
                                 <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                                     <Text>{review.length} reviews</Text>
@@ -124,13 +136,16 @@ export default function ({ navigation, route}) {
                     <View style={{ width: "90%" }}>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontWeight: 800 }}>Reviews</Text>
-                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <Pressable style={{ display: "flex", flexDirection: "row", alignItems: "center" }} onPress={() => solveViewAllReviews()}>
                                 <Text style={{ color: "#78797e" }}>See all</Text>
                                 <AntDesign name="right" size={15} color="#78797e" style={{ marginLeft: 5 }} />
-                            </View>
+                            </Pressable>
                         </View>
                         <View style={{ display: "flex", flexDirection: "row", alignItems: "flex-end", marginTop: 20 }}>
-                            <Text style={{ fontSize: 25, fontWeight: 800 }}>{0}</Text>
+                            <Text style={{ fontSize: 25, fontWeight: 800 }}>{(function() {
+                                const result = review.map((item) => item.review.star).reduce((a, b) => a + b, 0) / review.length
+                                return Math.round(result * 10) / 10;
+                            })()}</Text>
                             <Text style={{ marginLeft: 1, color: "#78797d" }}>/5</Text>
                         </View>
                         <View style={{ marginTop: 20, marginBottom: 20 }}>
@@ -141,23 +156,23 @@ export default function ({ navigation, route}) {
                                 data={review}
                                 keyExtractor={(item, index) => index.toString()}
                                 renderItem={(target) => {
-                                    return <View style={{ width: 300, borderRadius: 2, borderWidth: 1, borderColor: "#f7f7f7", padding: 20, marginRight: 15 }}>
-                                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+                                    return <View style={{ width: 350, borderRadius: 2, borderWidth: 1, borderColor: "grey", padding: 10, marginRight: 15 }}>
+                                        <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                                             <View style={{ display: "flex", flexDirection: "row" }}>
                                                 <View>
-                                                    <Image source={{ uri: "" }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+                                                    <Image source={{ uri: target.item.user.avatar == null ? USER_IMAGE_DEFAULT : target.item.user.avatar }} style={{ width: 50, height: 50, borderRadius: 50 }} />
                                                 </View>
                                                 <View style={{ display: "flex", justifyContent: "space-between", marginLeft: 5 }}>
-                                                    <Text style={{ fontWeight: 600 }}>{target.item.userId}</Text>
-                                                    <Text style={{ color: "#828e8e" }}>{target.item.dateCreated}</Text>
+                                                    <Text style={{ fontWeight: 600 }}>{target.item.user.fullName}</Text>
+                                                    <Text style={{ color: "#828e8e" }}>{target.item.review.dateCreated}</Text>
                                                 </View>
                                             </View>
                                             <View>
-                                                <Rating imageSize={20} startingValue={target.item.star} readonly={true} />
+                                                <Rating imageSize={15} startingValue={target.item.review.star} readonly={true} />
                                             </View>
                                         </View>
                                         <View style={{ marginTop: 20 }}>
-                                            <Text style={{ color: "#828e8e", textAlign: "justify" }} numberOfLines={2}>{target.item.comment}</Text>
+                                            <Text style={{ color: "#828e8e", textAlign: "justify" }} numberOfLines={2}>{target.item.review.comment}</Text>
                                         </View>
                                     </View>
                                 }
