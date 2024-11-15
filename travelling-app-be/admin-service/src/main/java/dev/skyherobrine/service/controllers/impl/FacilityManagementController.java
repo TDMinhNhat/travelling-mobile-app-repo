@@ -62,7 +62,7 @@ public class FacilityManagementController implements IManagement<String, Long> {
             String getFileNameId = ftifs.uploadFile(String.valueOf(target.getId()), file);
             URL imageURL = ftifs.getURLFile(getFileNameId);
             log.info("Find the service");
-            target.setImageURL(imageURL.getPath());
+            target.setImageURL(imageURL.toExternalForm());
             fr.save(target);
             template.send("insert-facility-image", ObjectParser.objectToJson(target));
             log.info("Add service's image successfully");

@@ -62,7 +62,7 @@ public class ServiceManagementController implements IManagement<ServiceDTO, Long
             String getFileNameId = stifs.uploadFile(String.valueOf(target.getId()) , file);
             URL imageURL = stifs.getURLFile(getFileNameId);
             log.info("Find the service");
-            target.setImageURL(imageURL.getPath());
+            target.setImageURL(imageURL.toExternalForm());
             sr.save(target);
             template.send("insert-service-image", ObjectParser.objectToJson(target));
             log.info("Add service's image successfully");

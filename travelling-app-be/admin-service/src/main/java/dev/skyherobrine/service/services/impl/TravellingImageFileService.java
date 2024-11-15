@@ -48,7 +48,6 @@ public class TravellingImageFileService implements IFileService {
             target.delete();
 
             listNameFiles.add(nameFile);
-            Thread.sleep(1500);
         }
 
         return listNameFiles;
