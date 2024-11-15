@@ -23,14 +23,13 @@ public class ServiceTravellingImageFileService implements IFileService {
 
     @Override
     public String uploadFile(String id, MultipartFile file) throws Exception {
-        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh-mm-ss").format(LocalDateTime.now()) + "_service_" + id;
+        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh-mm-ss").format(LocalDateTime.now()) + "_service_" + id + ".png";
         FileOutputStream fileOutput = new FileOutputStream(fileName);
         fileOutput.write(file.getBytes());
         fileOutput.flush();
 
         File target = new File(fileName);
         s3.uploadFile(target);
-        target.delete();
         return fileName;
     }
 

@@ -40,6 +40,7 @@ public class S3Bucket {
     public void uploadFile(File file) {
         PutObjectRequest request = PutObjectRequest.builder().key(file.getName()).bucket(bucketName).build();
         s3.putObject(request, RequestBody.fromFile(file));
+        file.deleteOnExit();
     }
 
     public void uploadFile(File[] files) {

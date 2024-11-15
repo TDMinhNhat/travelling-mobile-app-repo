@@ -27,11 +27,12 @@ public class LoginController {
             log.info("Calling the method login account");
             User target = ur.findByEmailAndPassword(email, password).orElseThrow(() -> new EntityNotFoundException("Email or password isn't correctly"));
             log.info("Login successfully");
-            return ResponseEntity.ok(new Response(
+            Response response = new Response(
                     HttpStatus.OK.value(),
                     "Login successfully",
                     target
-            ));
+            );
+            return ResponseEntity.ok(response);
         } catch (EntityNotFoundException e) {
             log.warn("Login failed for being not correct username or password");
             return ResponseEntity.ok(new Response(

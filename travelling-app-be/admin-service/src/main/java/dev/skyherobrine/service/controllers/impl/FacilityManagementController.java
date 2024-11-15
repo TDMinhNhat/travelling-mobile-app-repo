@@ -55,10 +55,10 @@ public class FacilityManagementController implements IManagement<String, Long> {
     }
 
     @PostMapping("image")
-    public ResponseEntity<Response> addImage(@RequestParam("id") String facId, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Response> addImage(@RequestParam("id") Long facId, @RequestParam("file") MultipartFile file) {
         log.info("Calling for add service's image");
         try {
-            Facility target = fr.findById(Long.parseLong(facId)).orElseThrow(() -> new NotFoundException("The service id = " + facId + " was not found!"));
+            Facility target = fr.findById(facId).orElseThrow(() -> new NotFoundException("The service id = " + facId + " was not found!"));
             String getFileNameId = ftifs.uploadFile(String.valueOf(target.getId()), file);
             URL imageURL = ftifs.getURLFile(getFileNameId);
             log.info("Find the service");

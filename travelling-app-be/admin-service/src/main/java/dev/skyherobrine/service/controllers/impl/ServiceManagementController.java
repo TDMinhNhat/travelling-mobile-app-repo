@@ -55,10 +55,10 @@ public class ServiceManagementController implements IManagement<ServiceDTO, Long
     }
 
     @PostMapping("image")
-    public ResponseEntity<Response> addImage(@RequestParam("serviceId") String serviceId, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Response> addImage(@RequestParam("id") Long serviceId, @RequestParam("file") MultipartFile file) {
         log.info("Calling for add service's image");
         try {
-            Service target = sr.findById(Long.parseLong(serviceId)).orElseThrow(() -> new NotFoundException("The service id = " + serviceId + " was not found!"));
+            Service target = sr.findById(serviceId).orElseThrow(() -> new NotFoundException("The service id = " + serviceId + " was not found!"));
             String getFileNameId = stifs.uploadFile(String.valueOf(target.getId()) , file);
             URL imageURL = stifs.getURLFile(getFileNameId);
             log.info("Find the service");

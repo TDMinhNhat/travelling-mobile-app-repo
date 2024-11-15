@@ -32,7 +32,7 @@ public class UpdateAccountController {
     }
 
     @PostMapping("avatar")
-    public ResponseEntity updateAvatar(@RequestParam("id") String userId, @RequestParam("image") MultipartFile image) {
+    public ResponseEntity updateAvatar(@RequestParam("id") String userId, @RequestParam("file") MultipartFile image) {
         log.info("Calling the method update avatar user");
         try {
             User target = ur.findById(userId).orElseThrow(() -> new EntityNotFoundException("The user id = " + userId + " was not found!"));
