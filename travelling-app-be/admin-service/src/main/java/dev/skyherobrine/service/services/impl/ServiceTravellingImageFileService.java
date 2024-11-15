@@ -23,7 +23,7 @@ public class ServiceTravellingImageFileService implements IFileService {
 
     @Override
     public String uploadFile(String id, MultipartFile file) throws Exception {
-        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_service_" + id;
+        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh-mm-ss").format(LocalDateTime.now()) + "_service_" + id;
         FileOutputStream fileOutput = new FileOutputStream(fileName);
         fileOutput.write(file.getBytes());
         fileOutput.flush();
@@ -42,7 +42,7 @@ public class ServiceTravellingImageFileService implements IFileService {
 
     @Override
     public URL getURLFile(String keyFileName) throws Exception {
-        return null;
+        return s3.getSingleURLFile(keyFileName);
     }
 
     @Override

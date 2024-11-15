@@ -31,7 +31,13 @@ public class FacilityConsumers {
 
     @KafkaListener(id = "facility-insert-facility_image", topics = "insert-facility-image")
     public void insertFacilityImage(String data) {
-        Facility target = (Facility) ObjectParser.jsonToObject(data, Facility.class);
+        Facility f = (Facility) ObjectParser.jsonToObject(data, Facility.class);
+        Facility target = fr.findById(f.getId()).orElse(null);
+        if(target == null) {
+            log.error("Facility not found");
+            return;
+        }
+        target.setImageURL(f.getImageURL());
         fr.save(target);
     }
 }

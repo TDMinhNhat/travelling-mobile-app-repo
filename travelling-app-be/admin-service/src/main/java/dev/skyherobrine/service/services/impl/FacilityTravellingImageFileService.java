@@ -22,7 +22,7 @@ public class FacilityTravellingImageFileService implements IFileService {
 
     @Override
     public String uploadFile(String id, MultipartFile file) throws Exception {
-        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh:mm:ss").format(LocalDateTime.now()) + "_facility_" + id;
+        String fileName = DateTimeFormatter.ofPattern("dd-MM-yyyy-hh-mm-ss").format(LocalDateTime.now()) + "_facility_" + id;
         FileOutputStream fileOutput = new FileOutputStream(fileName);
         fileOutput.write(file.getBytes());
         fileOutput.flush();

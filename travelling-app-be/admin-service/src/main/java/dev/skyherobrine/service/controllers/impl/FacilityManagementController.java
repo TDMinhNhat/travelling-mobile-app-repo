@@ -55,10 +55,10 @@ public class FacilityManagementController implements IManagement<String, Long> {
     }
 
     @PostMapping("image")
-    public ResponseEntity<Response> addImage(@RequestParam("serviceId") String serviceId, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Response> addImage(@RequestParam("id") String facId, @RequestParam("file") MultipartFile file) {
         log.info("Calling for add service's image");
         try {
-            Facility target = fr.findById(Long.parseLong(serviceId)).orElseThrow(() -> new NotFoundException("The service id = " + serviceId + " was not found!"));
+            Facility target = fr.findById(Long.parseLong(facId)).orElseThrow(() -> new NotFoundException("The service id = " + facId + " was not found!"));
             String getFileNameId = ftifs.uploadFile(String.valueOf(target.getId()), file);
             URL imageURL = ftifs.getURLFile(getFileNameId);
             log.info("Find the service");
@@ -73,6 +73,7 @@ public class FacilityManagementController implements IManagement<String, Long> {
             ));
         } catch (Exception e) {
             log.error("Something wrong when add facility's image");
+            log.error("Error: " + e);
             return ResponseEntity.ok(new Response(
                     org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Something wrong when add facility's image",

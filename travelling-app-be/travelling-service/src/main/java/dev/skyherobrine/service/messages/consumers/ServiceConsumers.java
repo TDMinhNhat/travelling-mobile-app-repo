@@ -31,7 +31,13 @@ public class ServiceConsumers {
 
     @KafkaListener(id = "service-insert-service_image", topics = "insert-service-image")
     public void insertServiceImage(String data) {
-        Service target = (Service) ObjectParser.jsonToObject(data, Service.class);
+        Service s = (Service) ObjectParser.jsonToObject(data, Service.class);
+        Service target = sr.findById(s.getId()).orElse(null);
+        if(target == null) {
+            log.error("Service not found");
+            return;
+        }
+        target.setImageURL(s.getImageURL());
         sr.save(target);
     }
 }
