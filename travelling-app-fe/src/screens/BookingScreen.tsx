@@ -1,22 +1,42 @@
 import React from "react";
-import { SafeAreaView, View, Text, Pressable, Image, ScrollView } from "react-native";
+import { SafeAreaView, View, Text, Pressable, Image, ScrollView, Modal, TextInput, TouchableOpacity } from "react-native";
 import BookingStyle from "../style/BookingStyle";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { RadioButton } from "react-native-radio-buttons-group";
+import booking from "../models/booking";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-export default function () {
-
+export default function ({ navigation, route }) {
+    const { travelling, image, service, facility, review, describe, policy, userLogin } = route.params
     const [paymentOption, setPaymentOption] = React.useState("full");
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [showDatePicker, setShowDatePicker] = React.useState(false)
+    const [guests, setGuests] = React.useState(travelling.guest)
+    const [dateTrip, setDateTrip] = React.useState(new Date())
 
-    const data = {
-        title: "Balian treehouse",
-        averageStar: 5.0,
-        totalReview: 262,
-        price: 20,
-        dates: "May 1 - 6",
-        guests: 1,
-        image: "https://picsum.photos/seed/picsum/536/354"
+    const solveBookNow = async () => {
+        const result = await booking.setBooking(
+            "B" + dateTrip.getFullYear() + "" + dateTrip.getMonth() + "" + dateTrip.getDate() + dateTrip.getHours() + dateTrip.getMinutes() + dateTrip.getSeconds() + dateTrip.getMilliseconds(),
+            userLogin.userId,
+            travelling.id,
+            dateTrip,
+            guests,
+            travelling.pricePerNight,
+            paymentOption,
+            "CARD",
+            travelling.pricePerNight + 10
+        )
+        if(result.code === 200) {
+            navigation.navigate("PaymentSuccessScreen", {
+                travelling: travelling,
+                image: image,
+                paymentOption: paymentOption,
+            })
+        } else {
+            alert("Booking failed! Please contact to administrator to help.")
+        }
+
     }
 
     return <SafeAreaView style={BookingStyle.container}>
@@ -26,18 +46,21 @@ export default function () {
                     <View style={{ width: "90%", display: "flex", flexDirection: "row", justifyContent: "space-between", borderColor: "#f6f6f6", borderWidth: 1, borderRadius: 10, padding: 10 }}>
                         <View style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                             <View>
-                                <Text style={{ color: "#717274" }}><Text style={{ fontWeight: 600, fontSize: 20, color: "black" }}>${data.price}</Text>/night</Text>
+                                <Text style={{ color: "#717274" }}><Text style={{ fontWeight: 600, fontSize: 20, color: "black" }}>${travelling.pricePerNight}</Text>/night</Text>
                             </View>
                             <View>
-                                <Text style={{ color: "#717274" }}>{data.title}</Text>
+                                <Text style={{ color: "#717274" }}>{travelling.name}</Text>
                             </View>
                             <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                                 <FontAwesome name="star" size={15} color="#f1c640" />
-                                <Text style={{ marginLeft: 5, color: "#717274" }}>{data.averageStar} ({data.totalReview})</Text>
+                                <Text style={{ marginLeft: 5, color: "#717274" }}>{(function() {
+                                const result = review.map((item) => item.review.star).reduce((a, b) => a + b, 0) / review.length
+                                return Math.round(result * 10) / 10;
+                            })()} ({review.length})</Text>
                             </View>
                         </View>
                         <View>
-                            <Image source={{ uri: data.image }} width={100} height={100} borderRadius={5} />
+                            <Image source={{ uri: image[0] }} width={100} height={100} borderRadius={5} />
                         </View>
                     </View>
                     <View style={{ width: "90%", marginTop: 30, borderBottomColor: "#f7f7f7", borderBottomWidth: 1 }}>
@@ -47,23 +70,65 @@ export default function () {
                         <View style={{ marginTop: 20, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                             <View>
                                 <Text style={{ color: "#262a2d", fontWeight: 600 }}>Dates</Text>
-                                <Text style={{ color: "#7c7d7f" }}>{data.dates}</Text>
+                                <Text style={{ color: "#7c7d7f" }}>{dateTrip.toISOString()}</Text>
                             </View>
                             <View>
-                                <Pressable>
+                                <Pressable onPress={() => setShowDatePicker(true)}>
                                     <AntDesign name="edit" size={20} color="black" />
                                 </Pressable>
+                                <DateTimePickerModal
+                                    isVisible={showDatePicker}
+                                    mode="date"
+                                    onConfirm={(date) => {
+                                        if(date.getTime() < new Date().getTime()) {
+                                            alert("Please select a date in the future")
+                                        } else {
+                                            setDateTrip(date);
+                                        }
+                                        setShowDatePicker(false);
+                                    }}
+                                    onCancel={() => setShowDatePicker(false)}
+                                />
                             </View>
                         </View>
                         <View style={{ marginTop: 20, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                             <View>
                                 <Text style={{ color: "#262a2d", fontWeight: 600 }}>Guests</Text>
-                                <Text style={{ color: "#7c7d7f" }}>{data.guests} guest</Text>
+                                <Text style={{ color: "#7c7d7f" }}>{guests} guest</Text>
                             </View>
                             <View>
-                                <Pressable>
+                                <Pressable onPress={() => setModalVisible(true)}>
                                     <AntDesign name="edit" size={20} color="black" />
                                 </Pressable>
+                                <Modal
+                                    animationType="slide"
+                                    transparent={false}
+                                    visible={modalVisible}
+                                    onRequestClose={() => {
+                                        setModalVisible(!modalVisible);
+                                    }}>
+                                    <View style={BookingStyle.centeredView} >
+                                        <View style={BookingStyle.modalView}>
+                                            <Text style={BookingStyle.modalText}>Input the number of guests</Text>
+                                            <TextInput
+                                                style={{ borderBottomWidth: 1, width: "80%", marginLeft: 10 }}
+                                                onChangeText={text => {
+                                                    if(text === "") {
+                                                        setGuests(2)
+                                                    } else {
+                                                        setGuests(parseInt(text))
+                                                    }
+                                                }}
+                                                keyboardType="numeric"
+                                            />
+                                            <Pressable
+                                                style={[BookingStyle.button, BookingStyle.buttonClose]}
+                                                onPress={() => setModalVisible(!modalVisible)}>
+                                                <Text>Accept</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </Modal>
                             </View>
                         </View>
                     </View>
@@ -112,8 +177,8 @@ export default function () {
                         </View>
                         <View style={{ borderBottomWidth: 1, borderBottomColor: "#f7f7f7"}}>
                             <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                                <Text style={{color: "#8d8d8d"}}>{data.price} x 1 night</Text>
-                                <Text style={{fontWeight: 600}}>${data.price * 1}</Text>
+                                <Text style={{color: "#8d8d8d"}}>{travelling.pricePerNight} x 1 night</Text>
+                                <Text style={{fontWeight: 600}}>${travelling.pricePerNight * 1}</Text>
                             </View>
                             <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
                                 <Text style={{color: "#8d8d8d"}}>Kayak fee</Text>
@@ -126,14 +191,14 @@ export default function () {
                         </View>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginTop: 10, marginBottom: 50 }}>
                             <Text style={{color: "#8d8d8d"}}>Total (USD)</Text>
-                            <Text style={{fontWeight: 600}}>${data.price + 10}</Text>
+                            <Text style={{fontWeight: 600}}>${travelling.pricePerNight + 10}</Text>
                         </View>
                     </View>
                 </View>
-                <View style={{ marginTop: 25, width: "90%", backgroundColor: "#00bdd5", borderRadius: 8 }}>
-                    <Pressable style={{ padding: 10 }}>
+                <View style={{ marginTop: 25, width: "90%", backgroundColor: "#00bdd5", borderRadius: 8, paddingBottom: 10 }}>
+                    <TouchableOpacity style={{ padding: 10 }} onPress={() => solveBookNow()}>
                         <Text style={{ textAlign: "center", color: "white" }}>Book Now</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             </View>
         </ScrollView>

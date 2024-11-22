@@ -12,7 +12,7 @@ const USER_IMAGE_DEFAULT: string = process.env.USER_IMAGE_DEFAULt;
 export default function ({ navigation, route}) {
 
     const { userReview, setUserReview } = React.useState([])
-    const { travelling, image, service, facility, review, describe, policy } = route.params
+    const { travelling, image, service, facility, review, describe, policy, userLogin } = route.params
 
     const solveBack = () => {
         navigation.goBack()
@@ -41,6 +41,19 @@ export default function ({ navigation, route}) {
     const solveViewAllReviews = () => {
         navigation.navigate("ReviewsScreen", {
             review: review
+        })
+    }
+
+    const solveBooking = () => {
+        navigation.navigate("Booking", {
+            travelling: travelling,
+            image: image,
+            service: service,
+            facility: facility,
+            review: review,
+            describe: describe,
+            policy: policy,
+            userLogin: userLogin
         })
     }
 
@@ -230,7 +243,7 @@ export default function ({ navigation, route}) {
                 { /* Footer for Booking */}
                 <View style={TravellingDetailStyle.footer}>
                     <Text style={{ color: "#abadb1" }}>From: <Text style={{ fontWeight: "bold", color: "black" }}>${travelling.pricePerNight}</Text>/night</Text>
-                    <TouchableOpacity style={{ backgroundColor: "#00bdd5", borderRadius: 10 }}>
+                    <TouchableOpacity style={{ backgroundColor: "#00bdd5", borderRadius: 10 }} onPress={() => solveBooking()}>
                         <Text style={{ color: "white", fontWeight: "bold", paddingLeft: 30, paddingRight: 30, paddingTop: 10, paddingBottom: 10 }}>Book now</Text>
                     </TouchableOpacity>
                 </View>

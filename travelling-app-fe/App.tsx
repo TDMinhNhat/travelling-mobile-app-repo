@@ -28,7 +28,7 @@ function App() {
           <Stack.Screen
             name="PaymentSuccessScreen"
             component={PaymentSuccessScreen}
-            options={{ title: "Payment Success" }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="ReviewsScreen"

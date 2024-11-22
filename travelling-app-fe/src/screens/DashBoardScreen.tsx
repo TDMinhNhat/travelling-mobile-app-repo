@@ -10,8 +10,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import travellingModel from "../models/travelling";
 
-export default function ({ navigation }) {
+export default function ({ navigation, route }) {
 
+    const { user } = route.params
     const [listTravel, setListTravel] = useState([])
     useEffect(() => {
         async function fetchData() {
@@ -37,7 +38,8 @@ export default function ({ navigation }) {
             review: item.review,
             describe: item.describe,
             facility: item.facility,
-            policy: item.policy
+            policy: item.policy,
+            userLogin: user
         })
     }
 
