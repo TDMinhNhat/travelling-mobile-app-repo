@@ -1,5 +1,7 @@
 package dev.skyherobrine.service.messages.consumers;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.skyherobrine.service.enums.PaymentMethod;
@@ -14,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.Map;
 
 @Component
 public class BookingConsumers {
@@ -30,33 +34,24 @@ public class BookingConsumers {
 
     @KafkaListener(id = "admin-insert-booking", topics = "insert-booking")
     public void insertBooking(String data) throws Exception{
-        JsonNode node = mapper.readTree(data);
-        String getBookingId = node.get("bookId").asText();
-        String getUserId = node.get("userId").asText();
-        String getTravellingId = node.get("travelId").asText();
+        Object result = mapper.readValue(data, new TypeReference<Object>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+        JsonNode node = mapper.readTree(result.toString());
         String[] getDateTrip = node.get("dateTrip").asText().split("-");
-        Integer getGuestJoin = node.get("guestJoin").asInt();
-        Integer getPerDayNight = node.get("perDayNight").asInt();
-        PaymentOptions getPaymentOptions = PaymentOptions.valueOf(node.get("options").asText());
-        PaymentMethod getPaymentMethod = PaymentMethod.valueOf(node.get("method").asText());
-        String[] getBookingDate = node.get("bookingDate").asText().split("-");
-        Double getTotalPrice = node.get("totalPrice").asDouble();
-
-        User user = ur.findById(getUserId).orElse(null);
-        Travelling travelling = tr.findById(getTravellingId).orElse(null);
-
-        Booking booking = new Booking(
-                getBookingId,
-                user,
-                travelling,
-                LocalDate.of(Integer.parseInt(getDateTrip[2]), Integer.parseInt(getDateTrip[1]), Integer.parseInt(getDateTrip[0])),
-                getGuestJoin,
-                getPerDayNight,
-                getPaymentOptions,
-                getPaymentMethod,
-                LocalDate.of(Integer.parseInt(getBookingDate[2]), Integer.parseInt(getBookingDate[1]), Integer.parseInt(getBookingDate[0])),
-                getTotalPrice
-        );
+        Booking booking = new Booking();
+        booking.setBookId(node.get("bookId").asText());
+        booking.setUserId(ur.findById(node.get("userId").asText()).orElse(null));
+        booking.setTravelId(tr.findById(node.get("travelId").asText()).orElse(null));
+        booking.setDateTrip(LocalDate.of(Integer.parseInt(getDateTrip[2]), Integer.parseInt(getDateTrip[1]), Integer.parseInt(getDateTrip[0])));
+        booking.setGuestJoin(node.get("guestJoin").asInt());
+        booking.setPerDayNight(node.get("perDayNight").asInt());
+        booking.setOptions(PaymentOptions.valueOf(node.get("options").asText()));
+        booking.setMethod(PaymentMethod.valueOf(node.get("method").asText()));
+        booking.setTotalPrice(node.get("totalPrice").asDouble());
         br.save(booking);
     }
 }

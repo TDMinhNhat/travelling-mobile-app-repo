@@ -49,4 +49,9 @@ public class Booking {
         this.bookingDate = bookingDate;
         this.totalPrice = totalPrice;
     }
+
+    @PrePersist
+    public void prePersist() {
+        bookingDate = LocalDate.now();
+    }
 }
