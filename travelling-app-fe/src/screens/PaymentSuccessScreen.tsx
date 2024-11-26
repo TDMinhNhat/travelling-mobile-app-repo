@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import styles from '../style/PaymentSuccessScreenStyle';
+import { useNavigation } from '@react-navigation/native';
 
 const PaymentSuccessScreen = ({ navigation, route }) => {
 
+  navigation = useNavigation();
   const [bookingNumber, setBookingNumber] = React.useState("00000072697027");
   const { travelling, image, paymentOption } = route.params;
   const bookingDate = new Date();
   const solveBooking = () => {
-
+    navigation.popToTop();
   }
 
   return (
@@ -62,7 +64,7 @@ const PaymentSuccessScreen = ({ navigation, route }) => {
 
       {/* View Booking Button */}
       <TouchableOpacity style={styles.viewBookingButton} onPress={() => solveBooking()}>
-        <Text style={styles.viewBookingText}>View booking</Text>
+        <Text style={styles.viewBookingText}>View Booking</Text>
       </TouchableOpacity>
     </View>
   );
