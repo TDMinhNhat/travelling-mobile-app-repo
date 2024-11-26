@@ -63,34 +63,6 @@ const ProfileScreen = ({ navigation }) => {
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
         </TouchableOpacity>
       </ScrollView>
-
-      {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.footerItem}>
-          <FontAwesome5 name="search" size={24} color="gray" />
-          <Text style={styles.footerText}>Search</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.footerItem}>
-          <FontAwesome5 name="heart" size={24} color="gray" />
-          <Text style={styles.footerText}>My Lists</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.footerItem}>
-          <FontAwesome5 name="calendar-alt" size={24} color="gray" />
-          <Text style={styles.footerText}>Booking</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.footerItem}>
-          <FontAwesome5 name="envelope" size={24} color="gray" />
-          <Text style={styles.footerText}>Inbox</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.footerItem}>
-          <FontAwesome5 name="user" size={24} color="gray" />
-          <Text style={styles.footerText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

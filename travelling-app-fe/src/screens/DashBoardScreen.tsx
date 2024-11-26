@@ -5,9 +5,6 @@ import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import travellingModel from "../models/travelling";
 
 export default function ({ navigation, route }) {
@@ -28,7 +25,6 @@ export default function ({ navigation, route }) {
     }, [])
 
     const [travelType, setTravelType] = useState("BEACH")
-    const [tab, setTab] = useState("Search")
 
     const solveClickDetail = (item) => {
         navigation.navigate("TravellingDetail", {
@@ -95,27 +91,5 @@ export default function ({ navigation, route }) {
         }}
         >
         </FlatList>
-        <View style={DashboardStyle.footer}>
-            <Pressable onPress={() => setTab("Search")} style={DashboardStyle.tab}>
-                <FontAwesome name="search" color="black" style={[tab == "Search" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                <Text style={tab == "Search" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Search</Text>
-            </Pressable>
-            <Pressable onPress={() => setTab("Favorites")} style={DashboardStyle.tab}>
-                <MaterialIcons name="favorite-border" color="black" style={[tab == "Favorites" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                <Text style={tab == "Favorites" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Favorite</Text>
-            </Pressable>
-            <Pressable onPress={() => setTab("Booking")} style={DashboardStyle.tab}>
-                <AntDesign name="shoppingcart" color="black" style={[tab == "Booking" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                <Text style={tab == "Booking" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Booking</Text>
-            </Pressable>
-            <Pressable onPress={() => setTab("Inbox")} style={DashboardStyle.tab}>
-                <MaterialCommunityIcons name="message-text-outline" color="black" style={[tab == "Inbox" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                <Text style={tab == "Inbox" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Inbox</Text>
-            </Pressable>
-            <Pressable onPress={() => setTab("Profile")} style={DashboardStyle.tab}>
-                <MaterialIcons name="account-circle" color="black" style={[tab == "Profile" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
-                <Text style={tab == "Profile" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Profile</Text>
-            </Pressable>
-        </View>
     </SafeAreaView>)
 }
