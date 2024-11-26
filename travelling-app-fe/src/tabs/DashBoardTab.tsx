@@ -50,6 +50,9 @@ export default function DashBoardTab({ route }) {
       <Tab.Screen
         name="Favorite"
         component={FavoriteScreen}
+        initialParams={{
+          user: route.params.user,
+        }}
         listeners={{
             tabPress: () => {
                 setTab("Favorites")
@@ -78,6 +81,9 @@ export default function DashBoardTab({ route }) {
       <Tab.Screen
         name="Booking"
         component={MyBookingScreen}
+        initialParams={{
+          user: route.params.user,
+        }}
         listeners={{
             tabPress: () => {
                 setTab("Booking")
@@ -106,6 +112,9 @@ export default function DashBoardTab({ route }) {
       <Tab.Screen
         name="Inbox"
         component={InboxScreen}
+        initialParams={{
+          user: route.params.user,
+        }}
         listeners={{
             tabPress: () => {
                 setTab("Inbox")
@@ -134,6 +143,9 @@ export default function DashBoardTab({ route }) {
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
+        initialParams={{
+          user: route.params.user,
+        }}
         listeners={{
             tabPress: () => {
                 setTab("Profile")
