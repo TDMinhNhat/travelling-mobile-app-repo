@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   viewBookingButton: {
     backgroundColor: '#00BCD4', 
     paddingVertical: 15,
-    paddingHorizontal: 100 ,
+    paddingHorizontal: 100,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',

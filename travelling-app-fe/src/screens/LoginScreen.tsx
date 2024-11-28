@@ -16,7 +16,9 @@ export default function ({ navigation }) {
     async function solveLogin() {
         const result = await authenticateModel.login(email, password)    
         if(result.code == 200) {
-            navigation.navigate("Dashboard");
+            navigation.navigate("Dashboard", {
+                user: result.data
+            });
         } else {
             alert("Something when logged in into your account. Please contact to administrator to help")
             console.log("Login failed")

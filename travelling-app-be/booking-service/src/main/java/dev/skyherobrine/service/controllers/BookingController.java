@@ -4,10 +4,12 @@ import dev.skyherobrine.service.exceptions.DuplicatePrimaryKeyValue;
 import dev.skyherobrine.service.models.Booking;
 import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.repositories.BookingRepository;
+import dev.skyherobrine.service.utils.ObjectParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookingController {
     @Autowired
     private BookingRepository br;
+    @Autowired
+    private KafkaTemplate template;
 
     @PostMapping
     public ResponseEntity<Response> bookTravel(@RequestBody Booking booking) {
@@ -26,7 +30,9 @@ public class BookingController {
             log.info("Calling the method booking travel");
             Booking target = br.findById(booking.getBookId()).orElse(null);
             if (target != null) throw new DuplicatePrimaryKeyValue("Duplicate booking value");
+            target = br.save(booking);
             log.info("Booking successfully");
+            template.send("insert-booking", ObjectParser.objectToJson(target));
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
                     "Booking successfully",
@@ -41,6 +47,7 @@ public class BookingController {
             ));
         } catch (Exception e) {
             log.error("Something wrong when booking the travel");
+            log.error("Error: " + e);
             return ResponseEntity.ok(new Response(
                     HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Something wrong when booking travel",

@@ -17,6 +17,7 @@ import ReviewsScreen from "./src/screens/ReviewsScreen";
 import PaymentSuccessScreen from "./src/screens/PaymentSuccessScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import SignUpSMSScreen from "./src/screens/SignUpSMS";
+import DashBoardTab from "./src/tabs/DashBoardTab";
 
 // Khởi tạo Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -28,7 +29,7 @@ function App() {
           <Stack.Screen
             name="PaymentSuccessScreen"
             component={PaymentSuccessScreen}
-            options={{ title: "Payment Success" }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="ReviewsScreen"
@@ -83,7 +84,7 @@ function App() {
           />
           <Stack.Screen
             name="Dashboard"
-            component={DashBoardScreen}
+            component={DashBoardTab}
             options={{ headerShown: false }}
           />
           <Stack.Screen
