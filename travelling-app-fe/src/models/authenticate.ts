@@ -10,7 +10,6 @@ const authenticateModel = {
             method: "post",
             url: pathAPI,
         }).then(response => {
-            console.log(response.data)
             return response.data;
         }).catch(err => {
             console.log(err)
