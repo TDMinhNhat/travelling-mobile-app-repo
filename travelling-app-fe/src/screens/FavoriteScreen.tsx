@@ -1,132 +1,96 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, View, Text, FlatList, Image, TouchableOpacity } from "react-native";
-import styles from "../style/FavoriteScreenStyle";  // Import style từ file ngoài
+import { SafeAreaView, View, Pressable, Text, TextInput, FlatList, ImageBackground } from "react-native";
+import Feather from '@expo/vector-icons/Feather';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import travellingModel from "../models/travelling";
+import DashboardStyle from "../style/DashboardStyle";
 
-// Dữ liệu yêu thích với ảnh, đánh giá sao, trái tim đỏ
-const favoriteData = {
-  BEACH: [
-    { 
-      id: "1", name: "Seaside Resort", location: "California", price: "$200/night", 
-      imageUrl: "https://elitetour.com.vn/files/images/VinpearlResort%26SpaNhaTrangBay/combo-vinpearl-resort-%26-spa-nha-trang-bay-4.jpg", rating: 4.5 
-    },
-    { 
-      id: "2", name: "Beach Paradise", location: "Hawaii", price: "$300/night", 
-      imageUrl: "https://t2.ex-cdn.com/crystalbay.com/resize/1860x570/files/news/2024/04/05/top-10-khach-san-ban-nen-den-khi-du-lich-nha-trang-134229.jpg", rating: 4.0 
-    },
-    { 
-      id: "7", name: "Sunset Beach Resort", location: "Florida", price: "$250/night", 
-      imageUrl: "https://images.trvl-media.com/lodging/17000000/16310000/16301200/16301109/fb9e7f52.jpg?impolicy=fcrop&w=357&h=201&p=1&q=medium", rating: 4.2 
-    },
-    { 
-      id: "10", name: "Tropical Shores", location: "Bahamas", price: "$350/night", 
-      imageUrl: "https://image.vietgoing.com/hotel/01/64/vietgoing_rjk2112283624.webp", rating: 4.8 
+const FavoriteScreen = ({ navigation, route }) => {
+  const { user } = route.params
+    const [listTravel, setListTravel] = useState([])
+    useEffect(() => {
+        async function fetchData() {
+            await travellingModel.getAll().then((response) => {
+                setListTravel(response.data.data)
+            }).catch(err => {
+                console.log(err)
+                alert("Error: " + err);
+            })
+        }
+
+        fetchData()
+    }, [])
+
+    const [travelType, setTravelType] = useState("BEACH")
+
+    const solveClickDetail = (item) => {
+        navigation.navigate("TravellingDetail", {
+            travelling: item.travelling,
+            image: item.image,
+            service: item.service,
+            review: item.review,
+            describe: item.describe,
+            facility: item.facility,
+            policy: item.policy,
+            userLogin: user
+        })
     }
-  ],
-  MOUNTAIN: [
-    { 
-      id: "3", name: "Mountain Lodge", location: "Colorado", price: "$150/night", 
-      imageUrl: "https://aussietravel.com.vn/application/media/web/5.jpg", rating: 4.7 
-    },
-    { 
-      id: "4", name: "Peak View", location: "Alaska", price: "$250/night", 
-      imageUrl: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/06/fa/66/swiss-belresort-tuyen.jpg", rating: 4.3 
-    },
-    { 
-      id: "8", name: "Mountain Escape", location: "Switzerland", price: "$350/night", 
-      imageUrl: "https://baohagiang.vn/file/4028eaa4679b32c401679c0c74382a7e/4028eaa57d592b24017d5a5e979736bf/042022/image007_20220416134512.jpg", rating: 4.8 
-    },
-    { 
-      id: "11", name: "Alpine Retreat", location: "Canada", price: "$400/night", 
-      imageUrl: "https://cdn2.vietnambooking.com/wp-content/uploads/hotel_pro/hotel_343437/4dd4c5e2b26f79b0c05fa752cac76347.jpg", rating: 4.6 
-    }
-  ],
-  CAMPING: [
-    { 
-      id: "5", name: "Camp Wildfire", location: "Arizona", price: "$50/night", 
-      imageUrl: "https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/10/Sapa-Jade-Hill-e1508314536764.png", rating: 4.2 
-    },
-    { 
-      id: "6", name: "Forest Haven", location: "Montana", price: "$100/night", 
-      imageUrl: "https://homepage.momocdn.net/blogscontents/momo-upload-api-210702102622-637608183821671522.jpeg", rating: 4.6 
-    },
-    { 
-      id: "9", name: "Riverfront Camping", location: "Oregon", price: "$70/night", 
-      imageUrl: "https://media.vneconomy.vn/w800/images/upload/2021/04/20/ks-sapa-1ac81.jpg", rating: 4.4 
-    },
-    { 
-      id: "12", name: "Wilderness Park", location: "Wyoming", price: "$60/night", 
-      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ft1w6xFolTWm9PtARtDLKHjory0DdXxhWSiwJOOqn4bS7OCvSKb9pci5MKboq9pFou8&usqp=CAU", rating: 4.3
-    },
-  ],
-};
 
-const FavoriteScreen = () => {
-  const [titleColor, setTitleColor] = useState("#000"); // Màu tiêu đề
-  const [minutes, setMinutes] = useState(new Date().getMinutes()); // Lấy phút hiện tại
-
-  // Hàm thay đổi màu tiêu đề theo phút
-  useEffect(() => {
-    const changeTitleColor = () => {
-      const currentMinutes = new Date().getMinutes();
-      setMinutes(currentMinutes);
-      // Đổi màu theo phút: nếu phút chẵn thì màu xanh, lẻ thì màu đỏ
-      setTitleColor(currentMinutes % 2 === 0 ? "#32CD32" : "#FF6347");
-    };
-
-    changeTitleColor();
-    const interval = setInterval(changeTitleColor, 60000); // Cập nhật mỗi phút
-
-    return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
-  }, [minutes]);
-
-  const renderCategory = (category, data) => (
-    <View style={styles.categoryContainer}>
-      <View style={styles.categoryHeader}>
-        <Text style={[styles.categoryTitle, { color: titleColor }]}>
-          {category}
-        </Text>
-        {/* Trái tim đỏ căn giữa với tiêu đề */}
-        <TouchableOpacity style={styles.favoriteButton}>
-          <Text style={styles.favoriteIcon}>❤️</Text>
-        </TouchableOpacity>
-      </View>
-
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.itemContainer}>
-            <Image source={{ uri: item.imageUrl }} style={styles.itemImage} />
-            <View style={styles.itemDetails}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemLocation}>{item.location} - {item.price}</Text>
-              {/* Đánh giá sao */}
-              <View style={styles.ratingContainer}>
-                {Array.from({ length: 5 }, (_, index) => (
-                  <Text key={index} style={styles.star}>
-                    {index < item.rating ? "★" : "☆"}
-                  </Text>
-                ))}
-              </View>
+    return (<SafeAreaView style={DashboardStyle.container}>
+        <View style={{ width: "100%", backgroundColor: "#ebfdff", display: "flex", alignItems: "center", borderBottomColor: "#f3f3f3", borderBottomWidth: 2 }}>
+            <View style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                <View style={{ display: "flex", flexDirection: "row", alignItems: "center", borderWidth: 2, borderRadius: 4, borderColor: "#bec5c7", width: "90%", padding: 2 }}>
+                    <FontAwesome name="search" size={20} color="black" style={{ marginLeft: 5 }} />
+                    <TextInput style={{ width: "90%", marginLeft: 5 }} placeholder="Where do you want to stay?" placeholderTextColor="#c2c5ca" />
+                </View>
             </View>
-          </View>
-        )}
-        showsVerticalScrollIndicator={false} // Hide the vertical scroll indicator
-      />
-    </View>
-  );
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={Object.entries(favoriteData)}
-        keyExtractor={(item) => item[0]}
-        renderItem={({ item }) => renderCategory(item[0], item[1])}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false} // Hide the vertical scroll indicator
-      />
-    </SafeAreaView>
-  );
+            <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly", width: "90%", marginTop: 10 }}>
+                <Pressable style={[DashboardStyle.tab, travelType == "BEACH" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("BEACH")}>
+                    <FontAwesome5 name="umbrella-beach" size={24} color="black" style={[travelType == "BEACH" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
+                    <Text style={travelType == "BEACH" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Beach</Text>
+                </Pressable>
+                <Pressable style={[DashboardStyle.tab, travelType == "MOUNTAIN" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("MOUNTAIN")}>
+                    <FontAwesome6 name="mountain-sun" size={24} color="black" style={[travelType == "MOUNTAIN" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
+                    <Text style={travelType == "MOUNTAIN" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Mountain</Text>
+                </Pressable>
+                <Pressable style={[DashboardStyle.tab, travelType == "CAMPING" ? DashboardStyle.tabActive : DashboardStyle.tabUnactive]} onPress={() => setTravelType("CAMPING")}>
+                    <FontAwesome6 name="campground" size={24} color="black" style={[travelType == "CAMPING" ? DashboardStyle.fontActive : DashboardStyle.fontUnative, DashboardStyle.fontIcon]} />
+                    <Text style={travelType == "CAMPING" ? DashboardStyle.fontActive : DashboardStyle.fontUnative}>Camping</Text>
+                </Pressable>
+            </View>
+        </View>
+        <FlatList
+            showsVerticalScrollIndicator={false} style={{ width: "90%" }}
+            data={listTravel.filter((item) => item.travelling.type === travelType)}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={(target) => {
+                return (
+                    <Pressable style={{ marginTop: 20 }} onPress={() => solveClickDetail(target.item)}>
+                        <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] == "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
+                            <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
+                                <Feather name="heart" size={24} color="#EAEEF0" />
+                            </View>
+                        </ImageBackground>
+                        <View style={{ marginTop: 20 }}>
+                            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                                <Text style={{ fontWeight: 700, color: "#232428", width: "85%" }}>{target.item.travelling.name}</Text>
+                                <Text style={{ color: "#B3B4B8" }}><FontAwesome name="star" size={15} color="#E7C64C" />  {(function() {
+                                    const result = target.item.review.map((item) => item.review.star).reduce((a, b) => a + b, 0) / target.item.review.length
+                                    return Math.round(result * 10) / 10;
+                                })()}</Text>
+                            </View>
+                            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+                                <Text style={{ color: "#A5A6AA" }}>{target.item.travelling.type}</Text>
+                                <Text style={{ color: "#5B5D5C" }}><Text style={{ color: "#2E2F31", fontWeight: 700 }}>${target.item.travelling.pricePerNight}</Text>/night</Text>
+                            </View>
+                        </View>
+                    </Pressable>)
+        }}
+        >
+        </FlatList>
+    </SafeAreaView>)
 };
 
 export default FavoriteScreen;
