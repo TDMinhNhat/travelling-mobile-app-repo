@@ -6,6 +6,7 @@ import {
   Pressable,
   FlatList,
   SafeAreaView,
+  Image
 } from "react-native";
 import {
   Ionicons,
@@ -53,7 +54,8 @@ const FacilitiesAndServices = ({ navigation, route }) => {
           }) => {
             return (
               <View style={styles.facilityItem}>
-                <Ionicons name="wifi-outline" size={24} color="black" />
+                {/* <Ionicons name="wifi-outline" size={24} color="black" /> */}
+                <Image source={{uri: item.imageURL}} style={{width: 24, height: 24}}/>
                 <Text style={styles.facilityText}>{item.name}</Text>
               </View>
             );
@@ -74,7 +76,8 @@ const FacilitiesAndServices = ({ navigation, route }) => {
                 <Text style={styles.subSectionTitle}>{item}</Text>
                 { service.filter(service => service.type === item).map((service) => {
                   return <View style={styles.facilityItem} key={service.id.toString()}>
-                    <FontAwesome5 name="concierge-bell" size={24} color="black" />
+                    {/* <FontAwesome5 name="concierge-bell" size={24} color="black" /> */}
+                    <Image source={{uri: service.imageURL }} style={{width: 24, height: 24}}/>
                     <Text style={styles.facilityText}>{service.name}</Text>
                   </View>
                 })}
