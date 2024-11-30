@@ -5,8 +5,7 @@ const URL: string = `http://${HOST}:8080/travelling/api/v1`;
 
 const travellingModel = {
     getAll: async () => {
-        const pathAPI = `${URL}/travelling`;
-        return await axios.get(pathAPI)
+        return await axios.get(`${URL}/travelling`)
     }
 }
 

@@ -7,32 +7,18 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
-    flex: 1,
     textAlign: 'center',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
     marginVertical: 16,
   },
-  noUpcomingTrips: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 16,
-    alignItems: 'center',
-    marginBottom: 16,
+  categoryContainer: {
+    marginBottom: 32,
   },
-  noUpcomingTripsText: {
-    fontSize: 16,
-    color: '#666',
+  categoryTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
   tripsList: {
     paddingBottom: 16,
@@ -45,8 +31,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   tripImage: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },
@@ -72,6 +58,14 @@ const styles = StyleSheet.create({
   tripPrice: {
     fontSize: 14,
     fontWeight: 'bold',
+    color: '#000',
+  },
+  historyHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    textAlign: 'center',
+    color: '#333',
   },
 });
 

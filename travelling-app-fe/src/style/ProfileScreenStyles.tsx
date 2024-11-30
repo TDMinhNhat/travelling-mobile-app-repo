@@ -21,12 +21,13 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   avatarContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#f0f0f0',
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center', 
+    marginBottom: 10,
+  },
+  avatarImage: {
+    width: 100, 
+    height: 100, 
+    borderRadius: 50, 
   },
   avatarText: {
     fontSize: 40,
@@ -47,6 +48,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     marginLeft: 10,
+  },
+   userInfoContainer: {
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  userFullName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  userUsername: {
+    fontSize: 14,
+    color: '#666',
   },
   notificationBadge: {
     backgroundColor: '#8B5C5C',
