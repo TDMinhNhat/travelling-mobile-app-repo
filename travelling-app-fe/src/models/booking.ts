@@ -1,7 +1,7 @@
 import axios from "axios";
+import value from "../const/value";
 
-const HOST: any = process.env.IP_HOST
-const URL: string = `http://${HOST}:8080/booking/api/v1/book`
+const URL: string = `http://${value.IP_HOST}:8080/booking/api/v1/book`
 
 const booking = {
     setBooking: async (bookId: string, userId: number, travelId: string, dateTrip: Date, guestJoin: number, perDayNight: number, options: string, method: string, totalPrice: number) => {

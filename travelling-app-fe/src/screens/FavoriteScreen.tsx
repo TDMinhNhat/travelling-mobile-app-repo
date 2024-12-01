@@ -6,24 +6,36 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import travellingModel from "../models/travelling";
 import DashboardStyle from "../style/DashboardStyle";
+import favoriteModel from "../models/favorite";
 
 const FavoriteScreen = ({ navigation, route }) => {
-  const { user } = route.params
+    const { user } = route.params
     const [listTravel, setListTravel] = useState([])
+    const [travelType, setTravelType] = useState("BEACH")
+
     useEffect(() => {
         async function fetchData() {
-            await travellingModel.getAll().then((response) => {
-                setListTravel(response.data.data)
+            await favoriteModel.getFavorites(user.userId).then((response: object) => {
+                setListTravel(response.data)
             }).catch(err => {
                 console.log(err)
-                alert("Error: " + err);
             })
         }
-
         fetchData()
     }, [])
 
-    const [travelType, setTravelType] = useState("BEACH")
+    const solveTurnOffFavorite = async (item) => {
+        const result = await favoriteModel.removeFavorite(user.userId, item.travelling.id)
+        if(result.code === 200) {
+            await favoriteModel.getFavorites(user.userId).then((response: object) => {
+                setListTravel(response.data)
+            }).catch(err => {
+                console.log(err)
+            })
+        } else {
+            alert("There are something wrong when remove your favorite travel. Please contact to administator to help");
+        }
+    }
 
     const solveClickDetail = (item) => {
         navigation.navigate("TravellingDetail", {
@@ -68,11 +80,13 @@ const FavoriteScreen = ({ navigation, route }) => {
             renderItem={(target) => {
                 return (
                     <Pressable style={{ marginTop: 20 }} onPress={() => solveClickDetail(target.item)}>
-                        <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] == "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
-                            <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
-                                <Feather name="heart" size={24} color="#EAEEF0" />
-                            </View>
-                        </ImageBackground>
+                        <Pressable onPress={() => solveTurnOffFavorite(target.item)}>
+                            <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] == "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
+                                <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
+                                    <Feather name="heart" size={24} color="red" />
+                                </View>
+                            </ImageBackground>
+                        </Pressable>
                         <View style={{ marginTop: 20 }}>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text style={{ fontWeight: 700, color: "#232428", width: "85%" }}>{target.item.travelling.name}</Text>

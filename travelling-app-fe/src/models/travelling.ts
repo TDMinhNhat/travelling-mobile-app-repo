@@ -1,7 +1,7 @@
 import axios from "axios";
+import value from "../const/value";
 
-const HOST = process.env.IP_HOST
-const URL: string = `http://${HOST}:8080/travelling/api/v1`;
+const URL: string = `http://${value.IP_HOST}:8080/travelling/api/v1`;
 
 const travellingModel = {
     getAll: async () => {
