@@ -5,11 +5,11 @@ const URL: string = `http://${HOST}:8080/authenticate/api/v1`
 const authenticateModel = {
     login: async (email: string, password: string) => {
         const pathAPI = `${URL}/login/${email}/${password}`
+        console.log(pathAPI);
         return await axios({
             method: "post",
             url: pathAPI,
         }).then(response => {
-            console.log(response.data)
             return response.data;
         }).catch(err => {
             console.log(err)

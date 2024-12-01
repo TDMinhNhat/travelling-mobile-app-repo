@@ -6,6 +6,7 @@ const URL: string = `http://${HOST}:8080/booking/api/v1/book`
 const booking = {
     setBooking: async (bookId: string, userId: number, travelId: string, dateTrip: Date, guestJoin: number, perDayNight: number, options: string, method: string, totalPrice: number) => {
         const pathAPI = URL
+        console.log(pathAPI)
         return await axios({
             method: "post",
             url: pathAPI,
