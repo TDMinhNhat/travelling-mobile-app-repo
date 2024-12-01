@@ -59,7 +59,7 @@ const ProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         {/* Logout Button */}
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.popToTop()}>
           <Ionicons name="exit-outline" size={24} color="black" />
           <Text style={styles.menuText}>Logout</Text>
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
