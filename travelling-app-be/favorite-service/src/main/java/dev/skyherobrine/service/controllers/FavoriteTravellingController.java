@@ -69,8 +69,10 @@ public class FavoriteTravellingController {
     ) {
         log.info("Deleting favorite");
         try {
-            ftr.deleteById(new FavoriteTravel.FavoriteTravelID(userId, travelId));
+            FavoriteTravel ft = new FavoriteTravel(new FavoriteTravel.FavoriteTravelID(userId, travelId));
+            ftr.delete(ft);
             log.info("Delete favorite successfully");
+            template.send("delete-favorite", ObjectParser.objectToJson(ft));
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
                     "Delete favorite successfully",

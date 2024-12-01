@@ -29,7 +29,6 @@ public class FavoriteConsumers {
 
     @KafkaListener(id = "admin-insert-favorite", topics = "insert-favorite")
     public void insertFavorite(String data) throws Exception{
-        System.out.println(data);
         Object result = mapper.readValue(data, new TypeReference<Object>() {
             @Override
             public Type getType() {
@@ -49,13 +48,20 @@ public class FavoriteConsumers {
 
     @KafkaListener(id = "admin-delete-favorite", topics = "delete-favorite")
     public void deleteFavorite(String data) throws Exception{
-        JsonNode node = mapper.readTree(data);
+        Object result = mapper.readValue(data, new TypeReference<Object>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+        JsonNode node = mapper.readTree(result.toString());
         String getUserId = node.get("id").get("userId").asText();
         String travelId = node.get("id").get("travelId").asText();
 
         User user = ur.findById(getUserId).orElse(null);
         Travelling travelling = tr.findById(travelId).orElse(null);
 
-        ftr.deleteById(new FavoriteTravel.FavoriteTravelID(user, travelling));
+        FavoriteTravel ft = ftr.findById(new FavoriteTravel.FavoriteTravelID(user, travelling)).get();
+        ftr.delete(ft);
     }
 }
