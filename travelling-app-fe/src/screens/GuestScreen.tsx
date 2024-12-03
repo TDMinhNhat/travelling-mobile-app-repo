@@ -14,10 +14,7 @@ const GuestScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Close Icon */}
-      <TouchableOpacity style={styles.closeIcon}>
-        <Ionicons name="close" size={24} color="black" />
-      </TouchableOpacity>
+
 
       {/* Location Section */}
       <View style={styles.selectionContainer}>
