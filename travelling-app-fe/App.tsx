@@ -19,6 +19,7 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import SignUpSMSScreen from "./src/screens/SignUpSMS";
 import DashBoardTab from "./src/tabs/DashBoardTab";
 import PersonalInforScreen from "./src/screens/PersonalInforScreen";  
+import ChatWithAIScreen from "./src/screens/ChatWithAIScreen";
 
 // Khởi tạo Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -55,17 +56,22 @@ function App() {
         <Stack.Screen
           name="GuestScreen"
           component={GuestScreen}
-          options={{ title: "GuestScreen" }}
+          options={{ title: "" }}
+        />
+        <Stack.Screen
+          name="ChatWithAIScreen"
+          component={ChatWithAIScreen}
+          options={{ title: "" }}
         />
         <Stack.Screen
           name="StayScreen"
           component={StayScreen}
-          options={{ title: "Stay Screen" }}
+          options={{ title: "" }}
         />
         <Stack.Screen
           name="DestinationSearch"
           component={DestinationSearchScreen}
-          options={{ title: "Search Destination" }} // Đặt tiêu đề của màn hình
+          options={{ title: "" }} // Đặt tiêu đề của màn hình
         />
         <Stack.Screen
           name="Booking"
