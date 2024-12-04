@@ -3,83 +3,71 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingHorizontal: 10,
   },
-  messagesContainer: {
-    paddingBottom: 100,  // Adjust padding to ensure input field is visible when keyboard is up
+  chatContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+    paddingBottom: 10,
   },
   messageContainer: {
-    paddingVertical: 8,
+    marginBottom: 10, // Khoảng cách giữa các tin nhắn
     paddingHorizontal: 15,
-    borderRadius: 20,
-    marginBottom: 12,
-    maxWidth: '75%',
+    paddingVertical: 8,
+    borderRadius: 10,
+    maxWidth: '80%',
   },
-  userMessage: {
-    backgroundColor: '#4CAF50',
-    alignSelf: 'flex-end',
-    borderBottomRightRadius: 0, // Adjust message bubble corners
+  customerMessage: {
+    backgroundColor: '#DCF8C6',
+    alignSelf: 'flex-end', // Canh bên phải cho tin nhắn khách hàng
+    borderBottomRightRadius: 0,
   },
-  aiMessage: {
-    backgroundColor: '#E1E1E1',
-    alignSelf: 'flex-start',
-    borderBottomLeftRadius: 0, // Adjust message bubble corners
+  adminMessage: {
+    backgroundColor: '#ECECEC',
+    alignSelf: 'flex-start', // Canh bên trái cho tin nhắn admin
+    borderBottomLeftRadius: 0,
   },
   messageText: {
     fontSize: 16,
-    color: '#fff',
-  },
-  userMessageText: {
-    color: '#fff',
-  },
-  aiMessageText: {
     color: '#333',
+  },
+  messageTime: {
+    fontSize: 12,
+    color: '#777',
+    marginTop: 5, // Khoảng cách giữa tin nhắn và giờ
+  },
+  customerTime: {
+    textAlign: 'right',
+  },
+  adminTime: {
+    textAlign: 'left',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
     borderTopWidth: 1,
     borderTopColor: '#ddd',
-    backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    zIndex: 1, // Ensure input area is above messages
+    paddingVertical: 10,
   },
-  textInput: {
+  inputField: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#f1f1f1',
-    borderRadius: 20,
     fontSize: 16,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 20,
     marginRight: 10,
-    color: '#333',
-    borderWidth: 1,
-    borderColor: '#ddd',
   },
   sendButton: {
     backgroundColor: '#4CAF50',
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 20,
   },
-  sendIcon: {
+  sendButtonText: {
     color: 'white',
-  },
-  adminMessage: {
-    alignSelf: "flex-start",
-    backgroundColor: "#e0f7fa",
-  },
-  customerMessage: {
-    alignSelf: "flex-end",
-    backgroundColor: "#c8e6c9",
-  },
-  chatContainer: {
-    flexGrow: 1,
-    padding: 10,
+    fontSize: 16,
   },
 });
 
 export default styles;
-
-
