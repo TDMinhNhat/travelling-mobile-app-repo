@@ -1,0 +1,101 @@
+services:
+  kafka:
+    image: "apache/kafka"
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    restart: always
+  mariadb:
+    image: "mariadb"
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+      - MYSQL_ROOT_USER=root
+  mongodb:
+    image: "mongo"
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    restart: always
+  travelling_app_be:
+    build: ./travelling-app-be
+    container_name: travelling_app_be
+    ports:
+      - "8761:8761"
+    restart: always
+    depends_on:
+      - kafka
+      - mariadb
+      - mongodb
+  admin_service:
+    build: ./travelling-app-be/admin-service
+    container_name: admin_service
+    ports:
+      - "9000:9000"
+    restart: always
+    depends_on:
+      - travelling_app_be
+  authen_service:
+    build: ./travelling-app-be/authen-service
+    container_name: authen_service
+    ports:
+      - "13000:13000"
+    restart: always
+    depends_on:
+      - travelling_app_be
+  travelling_service:
+    build: ./travelling-app-be/travelling-service
+    container_name: travelling_service
+    ports:
+      - "10000:10000"
+    restart: always
+    depends_on:
+      - travelling_app_be
+  favorite_service:
+    build: ./travelling-app-be/favorite-service
+    container_name: favorite_service
+    ports:
+      - "11000:11000"
+    restart: always
+    depends_on:
+      - travelling_app_be
+  booking_service:
+    build: ./travelling-app-be/booking-service
+    container_name: booking_service
+    ports:
+      - "12000:12000"
+    restart: always
+    depends_on:
+      - travelling_app_be
+  ai_service:
+    build: ./travelling-app-be/ai-service
+    container_name: ai_service
+    ports:
+      - "14000:14000"
+    restart: always
+    depends_on:
+      - travelling_app_be
+  api_gateway_service:
+    build: ./travelling-app-be/api-gateway-service
+    container_name: api_gateway_service
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - admin_service
+      - authen_service
+      - travelling_service
+      - favorite_service
+      - booking_service
+      - ai_service
+  mobile:
+    build: ./travelling-app-fe
+    container_name: mobile_fe
+    ports:
+      - "8081:8081"
+    restart: always
+    depends_on:
+      - api_gateway_service
+  

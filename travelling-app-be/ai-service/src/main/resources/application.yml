@@ -10,23 +10,23 @@ spring:
     name: ai-service
   data:
     mongodb:
-      host: localhost
+      host: mongodb
       port: 27017
       database: ai-db
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       group-id: ai-service
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: kafka:9092
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: localhost
+    hostname: travelling_app_be
   client:
     fetch-registry: true
     register-with-eureka: true
