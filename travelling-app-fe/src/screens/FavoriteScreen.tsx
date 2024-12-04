@@ -80,13 +80,13 @@ const FavoriteScreen = ({ navigation, route }) => {
             renderItem={(target) => {
                 return (
                     <Pressable style={{ marginTop: 20 }} onPress={() => solveClickDetail(target.item)}>
-                        <Pressable onPress={() => solveTurnOffFavorite(target.item)}>
-                            <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] == "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
+                            <ImageBackground imageStyle={{ borderRadius: 10 }} source={{ uri: target.item.image[0] === "" ? target.item.image[target.item.image.size() - 1] : target.item.image[0] }} style={{ width: "100%", height: 300, position: "relative" }}>
                                 <View style={{ width: 35, height: 35, backgroundColor: "white", flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", borderRadius: 50, right: 0, marginTop: 10, marginRight: 10 }}>
-                                    <Feather name="heart" size={24} color="red" />
+                                    <Pressable onPress={() => solveTurnOffFavorite(target.item)}>
+                                        <Feather name="heart" size={24} color={"red"} />
+                                    </Pressable>
                                 </View>
                             </ImageBackground>
-                        </Pressable>
                         <View style={{ marginTop: 20 }}>
                             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                                 <Text style={{ fontWeight: 700, color: "#232428", width: "85%" }}>{target.item.travelling.name}</Text>
