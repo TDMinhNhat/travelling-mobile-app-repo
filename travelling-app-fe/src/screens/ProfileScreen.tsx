@@ -58,6 +58,16 @@ const ProfileScreen = ({ navigation }) => {
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
         </TouchableOpacity>
 
+        {/* New Chat with AI Item */}
+        <TouchableOpacity
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('ChatWithAIScreen')} // Navigate to ChatWithAIScreen
+        >
+          <Ionicons name="chatbubbles-outline" size={24} color="black" />
+          <Text style={styles.menuText}>Chat with AI</Text>
+          <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />
+        </TouchableOpacity>
+
         {/* Logout Button */}
         <TouchableOpacity style={styles.menuItem} onPress={() => navigation.popToTop()}>
           <Ionicons name="exit-outline" size={24} color="black" />
