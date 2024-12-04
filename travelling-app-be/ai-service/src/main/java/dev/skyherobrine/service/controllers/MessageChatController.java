@@ -31,13 +31,16 @@ public class MessageChatController {
     }
 
     @GetMapping("/send")
-    public ResponseEntity<Response> generate(@RequestBody String message, @RequestParam("userId") String userId) {
+    public ResponseEntity<Response> generate(@RequestParam String message, @RequestParam("userId") String userId) {
         try {
             log.info("Calling generate answer from request");
             String response = this.model.call(message);
+            log.info("Generated response for message successfully");
             MessageChatBot chatBot = new MessageChatBot(LocalDateTime.now(), Long.parseLong(userId), message, response);
-            MessageChatBot target = repository.save(chatBot);
-            template.send("insert-chat-bot", ObjectParser.objectToJson(target));
+            repository.save(chatBot);
+            log.info("Insert chat message to database successfully");
+            String parserJson = ObjectParser.objectToJson(chatBot);
+            template.send("insert-chat-bot", parserJson);
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
                     "Successfully generated response for message",
@@ -47,7 +50,7 @@ public class MessageChatController {
             log.error("Something wrong when generating response for message: {}", message);
             log.error("Error: " + e);
             return ResponseEntity.ok(new Response(
-                    HttpStatus.OK.value(),
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Something wrong when generating response for message: " + e,
                     null
             ));

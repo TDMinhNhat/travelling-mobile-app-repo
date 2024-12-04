@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Document
+@Document(collection = "message_chat_bot")
 @Getter @Setter
 @NoArgsConstructor @RequiredArgsConstructor
 public class MessageChatBot {
