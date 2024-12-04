@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Document
 @Getter @Setter
-@NoArgsConstructor @RequiredArgsConstructor
+@NoArgsConstructor
 public class MessageChatBot {
     @Id @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
@@ -20,4 +20,11 @@ public class MessageChatBot {
     private String request;
     @NonNull
     private String response;
+
+    public MessageChatBot(@NonNull LocalDateTime dateCreated, @NonNull Long userId, @NonNull String request, @NonNull String response) {
+        this.dateCreated = dateCreated;
+        this.userId = userId;
+        this.request = request;
+        this.response = response;
+    }
 }
