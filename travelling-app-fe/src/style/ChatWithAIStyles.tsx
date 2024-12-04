@@ -66,6 +66,18 @@ const styles = StyleSheet.create({
   sendIcon: {
     color: 'white',
   },
+  adminMessage: {
+    alignSelf: "flex-start",
+    backgroundColor: "#e0f7fa",
+  },
+  customerMessage: {
+    alignSelf: "flex-end",
+    backgroundColor: "#c8e6c9",
+  },
+  chatContainer: {
+    flexGrow: 1,
+    padding: 10,
+  },
 });
 
 export default styles;

@@ -64,7 +64,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {/* New Chat with AI Item */}
         <TouchableOpacity
           style={styles.menuItem}
-          onPress={() => navigation.navigate('ChatWithAIScreen')} // Navigate to ChatWithAIScreen
+          onPress={() => navigation.navigate('ChatWithAIScreen', { user: user })} // Navigate to ChatWithAIScreen
         >
           <Ionicons name="chatbubbles-outline" size={24} color="black" />
           <Text style={styles.menuText}>Chat with AI</Text>
