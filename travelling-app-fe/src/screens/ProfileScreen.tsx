@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { MaterialIcons, FontAwesome, Ionicons } from '@expo/vector-icons';
 import styles from '../style/ProfileScreenStyles'; // Import file styles
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation, route }) => {
   // Avatar URL (you can replace this with a real URL or use a local image)
   const avatarUrl = 'https://images.spiderum.com/sp-images/49827e9036ed11eb89bf472233a50f5e.jpg';
+  const { user } = route.params;
 
   return (
     <View style={{ flex: 1 }}>
@@ -22,13 +23,15 @@ const ProfileScreen = ({ navigation }) => {
               style={styles.avatarImage} 
             />
           </View>
-          <Text style={styles.profileName}>TuNguyen</Text>
+          <Text style={styles.profileName}>{user.fullName}</Text>
         </View>
 
         {/* Menu Items */}
         <TouchableOpacity
           style={styles.menuItem}
-          onPress={() => navigation.navigate('PersonalInforScreen')} >
+          onPress={() => navigation.navigate('PersonalInforScreen', {
+            user: user
+          })} >
           <Text><FontAwesome name="user" size={24} color="black"/></Text>
           <Text style={styles.menuText}>Personal Information</Text>
           <MaterialIcons name="keyboard-arrow-right" size={24} color="black" />

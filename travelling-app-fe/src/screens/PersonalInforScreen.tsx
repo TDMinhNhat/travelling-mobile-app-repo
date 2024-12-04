@@ -3,27 +3,31 @@ import { View, Text, TextInput, SafeAreaView, ScrollView, TouchableOpacity, Imag
 import { MaterialIcons } from '@expo/vector-icons';
 import { RadioButton } from 'react-native-paper'; // Import RadioButton from react-native-paper
 import styles from '../style/PersonalInforScreenStyle';  // Import styles from styles.js
+import authenticateModel from '../models/authenticate';
 
-const PersonalInforScreen = ({ navigation }) => {
-  const [user, setUser] = useState({
-    fullName: 'Nguyễn Văn Tú',
-    username: '@TuNguyen',
-    sex: 'Nam',  // Default is 'Nam'
-    birthdate: '1995-05-15',
-    phone: '0869.673.999',
-    email: 'tunguyen@gmail.com',
-    address: 'Hải Phòng, Việt Nam',
-    provider: 'Google',
-    dateCreated: '2021-06-10',
-    avatarUrl: 'https://images.spiderum.com/sp-images/49827e9036ed11eb89bf472233a50f5e.jpg', // Replace with actual image URL or local image
-  });
-
+const PersonalInforScreen = ({ navigation, route }) => {
+  const [user, setUser] = useState(route.params.user);
   const [isEditing, setIsEditing] = useState(false); // Tracks whether in editing mode
   const [isViewingDetails, setIsViewingDetails] = useState(false); // Tracks whether in view-only mode
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     alert('Thông tin đã được cập nhật!');
-    setIsEditing(false);  // Stop editing mode
+    const result = await authenticateModel.update(
+      user.fullName,
+      user.username,
+      user.sex,
+      user.birthDate,
+      user.phone,
+      user.email,
+      user.address
+    );
+
+    if(result === null) {
+      alert("Failure the update information account!");
+    } else {
+      alert("Success the update information account!");
+      setIsEditing(false);
+    }  
   };
 
   const handleCancelEdit = () => {
@@ -45,7 +49,7 @@ const PersonalInforScreen = ({ navigation }) => {
         <View style={styles.avatarContainer}>
           {/* Use Image component to display the avatar */}
           <Image
-            source={{ uri: user.avatarUrl }} // Replace with actual image URL or local image path
+            source={{ uri: user.avatar }} // Replace with actual image URL or local image path
             style={styles.avatarImage}
           />
           
@@ -92,8 +96,8 @@ const PersonalInforScreen = ({ navigation }) => {
             <Text style={styles.label}>Giới tính:</Text>
             {isEditing ? (
               <RadioButton.Group
-                onValueChange={value => setUser({ ...user, sex: value })}
-                value={user.sex}
+                onValueChange={value => setUser({ ...user, sex: value === "Nam" ? false : true })}
+                value={user.sex === false ? "Nam" : "Nữ"}
               >
                 <View style={styles.radioButtonContainer}>
                   <RadioButton value="Nam" />
@@ -103,13 +107,9 @@ const PersonalInforScreen = ({ navigation }) => {
                   <RadioButton value="Nữ" />
                   <Text style={styles.radioButtonLabel}>Nữ</Text>
                 </View>
-                <View style={styles.radioButtonContainer}>
-                  <RadioButton value="Khác" />
-                  <Text style={styles.radioButtonLabel}>Khác</Text>
-                </View>
               </RadioButton.Group>
             ) : (
-              <Text style={styles.infoText}>{user.sex}</Text>
+              <Text style={styles.infoText}>{user.sex === false ? "Nam" : "Nữ"}</Text>
             )}
           </View>
 
@@ -118,11 +118,11 @@ const PersonalInforScreen = ({ navigation }) => {
             {isEditing ? (
               <TextInput
                 style={styles.input}
-                value={user.birthdate}
-                onChangeText={(value) => setUser({ ...user, birthdate: value })}
+                value={user.birthDate}
+                onChangeText={(value) => setUser({ ...user, birthDate: value })}
               />
             ) : (
-              <Text style={styles.infoText}>{user.birthdate}</Text>
+              <Text style={styles.infoText}>{user.birthDate}</Text>
             )}
           </View>
 
@@ -161,7 +161,7 @@ const PersonalInforScreen = ({ navigation }) => {
                 onChangeText={(value) => setUser({ ...user, address: value })}
               />
             ) : (
-              <Text style={styles.infoText}>{user.address}</Text>
+              <Text style={styles.infoText}>{user.address === null ? "KHÔNG CÓ" : user.address}</Text>
             )}
           </View>
 

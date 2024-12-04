@@ -33,6 +33,25 @@ const authenticateModel = {
             alert("Something wrong in the server! Please contact the administrator!")
             return null;
         })
+    },
+    update: async (fullName: string, username: string, sex: boolean, birthDate: string, phone: string, email: string, address: string) => {
+        const birthDateSplit = birthDate.split('-')
+        return await axios({
+            method: 'post',
+            params: {
+                fullName: fullName,
+                username: username,
+                sex: sex,
+                birthDate: `${birthDateSplit[2]}-${birthDateSplit[1]}-${birthDateSplit[0]}`,
+                phone: phone,
+                email: email,
+                address: address
+            }
+        }).then(response => response.data).catch(err => {
+            console.log(err)
+            alert("Something wrong in the server! Please contact the administrator!")
+            return null;
+        })
     }
 }
 

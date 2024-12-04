@@ -31,6 +31,11 @@ public class UpdateAccountController {
         this.uaifs = uaifs;
     }
 
+    @PostMapping
+    public ResponseEntity updateAccountInfo() {
+        return null;
+    }
+
     @PostMapping("avatar")
     public ResponseEntity updateAvatar(@RequestParam("id") String userId, @RequestParam("file") MultipartFile image) {
         log.info("Calling the method update avatar user");
@@ -41,7 +46,6 @@ public class UpdateAccountController {
             target.setAvatar(getURL);
             template.send("update-avatar-user", ObjectParser.objectToJson(getURL + "@USERID@" + userId));
             ur.save(target);
-
             return ResponseEntity.ok(new Response(
                     HttpStatus.OK.value(),
                     "Update avatar user successfully",
