@@ -4,6 +4,7 @@ import dev.skyherobrine.service.models.MessageChatBot;
 import dev.skyherobrine.service.models.Response;
 import dev.skyherobrine.service.repositories.MessageChatBotRepository;
 import dev.skyherobrine.service.utils.ObjectParser;
+import jakarta.ws.rs.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,26 @@ public class MessageChatController {
             return ResponseEntity.ok(new Response(
                     HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Something wrong when generating response for message: " + e,
+                    null
+            ));
+        }
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<Response> getListMessage(@PathParam("userId") String userId) {
+        try {
+            log.info("Calling get list message for user");
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.OK.value(),
+                    "Successfully get list message for user",
+                    repository.findAllByUserIdOrderByDateCreated(Long.parseLong(userId))
+            ));
+        } catch (Exception e) {
+            log.error("Something wrong when getting list message for user: {}", userId);
+            log.error("Error: " + e);
+            return ResponseEntity.ok(new Response(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Something wrong when getting list message for user: " + e,
                     null
             ));
         }
