@@ -77,6 +77,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.3.4</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -84,6 +85,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <mainClass>dev.skyherobrine.service.ApiGatewayServiceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
