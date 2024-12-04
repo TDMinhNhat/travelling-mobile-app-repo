@@ -10,7 +10,7 @@
     </parent>
     <groupId>dev.skyherobrine</groupId>
     <artifactId>authen-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>authen-service</name>
     <description>authen-service</description>
     <url/>

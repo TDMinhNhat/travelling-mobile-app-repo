@@ -10,7 +10,7 @@
     </parent>
     <groupId>dev.skyherobrine</groupId>
     <artifactId>api-gateway-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>api-gateway-service</name>
     <description>api-gateway-service</description>
     <url/>
