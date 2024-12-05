@@ -4,11 +4,30 @@ import LoginStyle from "../style/LoginStyle";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import axios from "axios";
+import authenticateModel from "../models/authenticate";
 
-export default function () {
+export default function ({ navigation }) {
 
+    // const API_URI: string = "http://192.168.100.9:8080/authenticate/api/v1"
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    async function solveLogin() {
+        const result = await authenticateModel.login(email, password)    
+        if(result.code == 200) {
+            navigation.navigate("Dashboard", {
+                user: result.data
+            });
+        } else {
+            alert("Something when logged in into your account. Please contact to administrator to help")
+            console.log("Login failed")
+        }
+    }
+
+    function solveCreateAccount() {
+        navigation.navigate("CreateAccount");
+    }
 
     return (
         <SafeAreaView style={LoginStyle.container}>
@@ -44,7 +63,7 @@ export default function () {
                         </View>
                     </View>
                     <View style={{marginTop: 20, backgroundColor: "#00bdd5", borderRadius: 5}}>
-                        <Pressable style={{display: "flex", alignItems: "center", padding: 8}}>
+                        <Pressable style={{display: "flex", alignItems: "center", padding: 8}} onPress={() => solveLogin()}>
                             <Text style={{fontWeight: 700, color: "white"}}>Login</Text>
                         </Pressable>
                     </View>
@@ -78,7 +97,7 @@ export default function () {
                 <View>
                     <View style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                         <Text>Hasn't ever an account yet?</Text>
-                        <Pressable style={{marginLeft: 10}}>
+                        <Pressable style={{marginLeft: 10}} onPress={() => solveCreateAccount()}>
                             <Text style={{color: "#589dd5", textDecorationLine: "underline"}}>Create an account</Text>
                         </Pressable>
                     </View>

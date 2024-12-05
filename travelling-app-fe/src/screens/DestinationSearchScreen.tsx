@@ -3,15 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, Image, ScrollView } from 'reac
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styles from '../style/DestinationSearchScreenStyle';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [destination, setDestination] = useState('');
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {/* Close Icon */}
-      <TouchableOpacity style={styles.closeIcon}>
-        <Ionicons name="close" size={24} color="black" />
-      </TouchableOpacity>
+      
 
       {/* Header section */}
       <View style={styles.header}>
@@ -62,12 +59,18 @@ const HomeScreen = () => {
       
       {/* Time and Guests Options */}
       <View style={styles.optionContainer}>
-        <TouchableOpacity style={styles.optionItem}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => navigation.navigate('StayScreen')} 
+        >
           <Text style={styles.optionText}>When</Text>
           <Text style={styles.optionDetail}>Add time</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.optionItem}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => navigation.navigate('GuestScreen')} 
+        >
           <Text style={styles.optionText}>Guests</Text>
           <Text style={styles.optionDetail}>Add guests</Text>
         </TouchableOpacity>

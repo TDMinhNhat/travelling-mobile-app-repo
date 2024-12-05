@@ -1,0 +1,36 @@
+spring:
+  ai:
+    mistralai:
+      api-key: B5fbUJij2CWBEEmW5jB6gxq9G20RzJgj
+    chat:
+      options:
+        model: mistral-large-latest
+        temperature: 0.5
+  application:
+    name: ai-service
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: ai-db
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: ai-service
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 14000
