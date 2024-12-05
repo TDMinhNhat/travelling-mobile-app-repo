@@ -14,7 +14,7 @@ const booking = {
                 "bookId": bookId,
                 "userId": userId,
                 "travelId": travelId,
-                "dateTrip": dateTrip.getDate() + "-" + dateTrip.getMonth() + "-" + dateTrip.getFullYear(),
+                "dateTrip": (dateTrip.getDate() < 10 ? "0" + dateTrip.getDate() : dateTrip.getDate()) + "-" + (dateTrip.getMonth() < 10 ? "0" + dateTrip.getMonth() : dateTrip.getMonth()) + "-" + dateTrip.getFullYear(),
                 "guestJoin": guestJoin,
                 "perDayNight": perDayNight,
                 "options": options == "full" ? "FULL" : "A_PART",
