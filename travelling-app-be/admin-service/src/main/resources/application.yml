@@ -41,5 +41,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 server:
   port: 9000
-aws_access_key: AKIA2KKFZ2FFVNGA53QB
-aws_secret_key: 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
+aws_access_key: AKIATWBJ2KFZKJUMQ33C
+aws_secret_key: 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

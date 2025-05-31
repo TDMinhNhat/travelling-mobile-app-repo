@@ -23,7 +23,7 @@ public class S3Bucket {
     private Environment env;
     private final AwsCredentials credentials;
     private final S3Client s3;
-    private final String bucketName = "travellingappbucket";
+    private final String bucketName = "travelling-mobile-app";
 
     public S3Bucket(Environment env) {
         this.env = env;
